@@ -9,6 +9,8 @@ Two networks:
 
 Three map types: **one place**, **rival cities** (each junction drains to the nearest of N cities), and **meet halfway** (the fairest or least-total meeting spot for up to 8 travellers).
 
+The page is in English or Dutch (the EN/NL switch in the panel). It follows the browser language at first, remembers the choice, and `?lang=nl` or `?lang=en` in a link forces one.
+
 **Live:** https://karsdorp.io/nl-road-map/ (try `#bike-groningen` or `#car-maastricht`)
 
 ## Run locally

@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Alle Wegen Leiden Naar</title>
+<title>All Roads Lead To</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cpath d=%22M16 16 4 6M16 16 28 9M16 16 9 28M16 16 25 27%22 stroke=%22%231f4ea3%22 stroke-width=%223%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%224.5%22 fill=%22%23fff%22 stroke=%22%231f4ea3%22 stroke-width=%222.5%22/%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,6 +54,9 @@ body {
 .brand { display: flex; flex-direction: column; gap: 4px; }
 .brand h1 { margin: 0; font-family: var(--font-display); font-stretch: 125%; font-weight: 850; font-size: 21px; line-height: 1.05; letter-spacing: -0.01em; text-wrap: balance; }
 .brand p { margin: 0; color: var(--muted); font-size: 13.5px; }
+.brandtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.seg.lang { flex: none; padding: 2px; gap: 2px; border-radius: 7px; }
+.seg.lang button { font-family: var(--font-data); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; padding: 3px 7px; border-radius: 5px; }
 
 .group { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
 .label { font-family: var(--font-data); font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
@@ -119,133 +122,137 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 </style>
 
 <div class="app">
-  <aside class="rail" aria-label="Map controls">
+  <aside class="rail" data-i18n-attr="aria-label:railLabel">
     <div class="brand">
-      <h1>Alle wegen leiden naar…</h1>
-      <p>Every junction in the Netherlands, routed to one place. Line width shows how much of the country flows down each road.</p>
-    </div>
-
-    <div class="group">
-      <div class="seg big" role="group" aria-label="Network">
-        <button id="m-car" data-mode="car" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v2H3z"/><circle cx="7.5" cy="13" r="1"/><circle cx="16.5" cy="13" r="1"/></svg>Car roads</button>
-        <button id="m-bike" data-mode="bike" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="16" r="3.5"/><circle cx="18.5" cy="16" r="3.5"/><path d="M5.5 16 9 9h6l3.5 7M9 9l3 7h-1M13 6h3l-1 3"/></svg>Fietsroutes</button>
+      <div class="brandtop">
+        <h1 data-i18n="brandTitle">All roads lead to…</h1>
+        <div class="seg lang" role="group" aria-label="Language / Taal">
+          <button data-lang="en" aria-pressed="true" lang="en" title="English">EN</button>
+          <button data-lang="nl" aria-pressed="false" lang="nl" title="Nederlands">NL</button>
+        </div>
       </div>
-      <p class="hint" id="mode-hint">Motorways down to local through-roads, with car ferries.</p>
+      <p data-i18n="brandSub"></p>
     </div>
 
     <div class="group">
-      <div class="label">Map</div>
-      <div class="seg" role="group" aria-label="Map type">
-        <button data-kind="one" aria-pressed="true">One place</button>
-        <button data-kind="rivals" aria-pressed="false">Rival cities</button>
-        <button data-kind="meet" aria-pressed="false">Meet halfway</button>
+      <div class="seg big" role="group" data-i18n-attr="aria-label:ariaNetwork">
+        <button id="m-car" data-mode="car" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v2H3z"/><circle cx="7.5" cy="13" r="1"/><circle cx="16.5" cy="13" r="1"/></svg><span data-i18n="modeCar"></span></button>
+        <button id="m-bike" data-mode="bike" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="16" r="3.5"/><circle cx="18.5" cy="16" r="3.5"/><path d="M5.5 16 9 9h6l3.5 7M9 9l3 7h-1M13 6h3l-1 3"/></svg><span data-i18n="modeBike"></span></button>
+      </div>
+      <p class="hint" id="mode-hint"></p>
+    </div>
+
+    <div class="group">
+      <div class="label" data-i18n="lblMap"></div>
+      <div class="seg" role="group" data-i18n-attr="aria-label:ariaMapType">
+        <button data-kind="one" aria-pressed="true" data-i18n="kindOne"></button>
+        <button data-kind="rivals" aria-pressed="false" data-i18n="kindRivals"></button>
+        <button data-kind="meet" aria-pressed="false" data-i18n="kindMeet"></button>
       </div>
     </div>
 
     <div class="group" id="p-one">
-      <label class="label" for="dest">Destination</label>
-      <input type="text" id="dest" list="placelist" placeholder="Type a town or village" autocomplete="off">
+      <label class="label" for="dest" data-i18n="lblDest"></label>
+      <input type="text" id="dest" list="placelist" data-i18n-attr="placeholder:destPh" autocomplete="off">
       <datalist id="placelist"></datalist>
-      <p class="hint">Or click anywhere on the map to send every route there.</p>
+      <p class="hint" data-i18n="destHint"></p>
     </div>
 
     <div class="group" id="p-rivals" hidden>
-      <div class="label">Cities that compete <output id="nb-out">12</output></div>
+      <div class="label"><span data-i18n="lblCities"></span> <output id="nb-out">12</output></div>
       <div class="chips">
-        <button class="chip on" data-preset="biggest">Biggest</button>
-        <button class="chip" data-preset="capitals">Provincial capitals</button>
-        <button class="chip" data-preset="clear-c">Clear</button>
+        <button class="chip on" data-preset="biggest" data-i18n="prBiggest"></button>
+        <button class="chip" data-preset="capitals" data-i18n="prCapitals"></button>
+        <button class="chip" data-preset="clear-c" data-i18n="prClear"></button>
       </div>
-      <input type="range" id="nbig" min="2" max="40" value="12" aria-label="Number of biggest cities">
+      <input type="range" id="nbig" min="2" max="40" value="12" data-i18n-attr="aria-label:ariaNbig">
       <div class="tags" id="city-tags"></div>
-      <p class="hint">Every junction drains to whichever city it reaches first. Click the map to add a city, or click one to remove it.</p>
+      <p class="hint" data-i18n="rivalsHint"></p>
     </div>
 
     <div class="group" id="p-meet" hidden>
-      <div class="label">Who is coming</div>
+      <div class="label" data-i18n="lblWho"></div>
       <div class="chips">
-        <button class="chip on" data-preset="g4">G4 cities</button>
-        <button class="chip" data-preset="corners">Four corners</button>
-        <button class="chip" data-preset="unis">University towns</button>
-        <button class="chip" data-preset="clear-t">Clear</button>
+        <button class="chip on" data-preset="g4" data-i18n="prG4"></button>
+        <button class="chip" data-preset="corners" data-i18n="prCorners"></button>
+        <button class="chip" data-preset="unis" data-i18n="prUnis"></button>
+        <button class="chip" data-preset="clear-t" data-i18n="prClear"></button>
       </div>
       <div class="tags" id="trav-tags"></div>
-      <p class="hint">Click the map to add someone (up to 8), or click a marker to remove them.</p>
-      <div class="label">Best spot means</div>
-      <div class="seg" role="group" aria-label="Meeting objective">
-        <button data-obj="fair" aria-pressed="true">Shortest longest trip</button>
-        <button data-obj="total" aria-pressed="false">Least total</button>
+      <p class="hint" data-i18n="meetHint"></p>
+      <div class="label" data-i18n="lblBest"></div>
+      <div class="seg" role="group" data-i18n-attr="aria-label:ariaObjective">
+        <button data-obj="fair" aria-pressed="true" data-i18n="objFair"></button>
+        <button data-obj="total" aria-pressed="false" data-i18n="objTotal"></button>
       </div>
     </div>
 
     <div class="row2">
       <div class="group">
-        <div class="label">Route by</div>
-        <div class="seg" role="group" aria-label="Route by">
-          <button data-route="time" aria-pressed="true">Time</button>
-          <button data-route="dist" aria-pressed="false">Distance</button>
+        <div class="label" data-i18n="lblRoute"></div>
+        <div class="seg" role="group" data-i18n-attr="aria-label:lblRoute">
+          <button data-route="time" aria-pressed="true" data-i18n="routeTime"></button>
+          <button data-route="dist" aria-pressed="false" data-i18n="routeDist"></button>
         </div>
       </div>
       <div class="group">
-        <div class="label">Width counts</div>
-        <div class="seg" role="group" aria-label="Line width counts">
-          <button data-weight="area" aria-pressed="true">Land</button>
-          <button data-weight="pop" aria-pressed="false">People</button>
+        <div class="label" data-i18n="lblWeight"></div>
+        <div class="seg" role="group" data-i18n-attr="aria-label:ariaWeight">
+          <button data-weight="area" aria-pressed="true" data-i18n="wArea"></button>
+          <button data-weight="pop" aria-pressed="false" data-i18n="wPop"></button>
         </div>
       </div>
     </div>
 
     <div class="group" id="g-branches">
-      <label class="label" for="branches">Coloured branches <output id="br-out">7</output></label>
+      <label class="label" for="branches"><span data-i18n="lblBranches"></span> <output id="br-out">7</output></label>
       <input type="range" id="branches" min="1" max="12" value="7">
     </div>
 
     <div class="group">
-      <div class="label">Poster style</div>
-      <div class="seg" role="group" aria-label="Poster style">
-        <button data-style="paper" aria-pressed="true">Paper</button>
-        <button data-style="night" aria-pressed="false">Night</button>
-        <button data-style="delft" aria-pressed="false">Delfts blauw</button>
+      <div class="label" data-i18n="lblStyle"></div>
+      <div class="seg" role="group" data-i18n-attr="aria-label:lblStyle">
+        <button data-style="paper" aria-pressed="true" data-i18n="stPaper"></button>
+        <button data-style="night" aria-pressed="false" data-i18n="stNight"></button>
+        <button data-style="delft" aria-pressed="false" data-i18n="stDelft"></button>
       </div>
       <div class="row2">
-        <label class="check"><input type="checkbox" id="labels" checked> Place names</label>
-        <label class="check"><input type="checkbox" id="chrome" checked> Title &amp; legend</label>
+        <label class="check"><input type="checkbox" id="labels" checked> <span data-i18n="chkLabels"></span></label>
+        <label class="check"><input type="checkbox" id="chrome" checked> <span data-i18n="chkChrome"></span></label>
       </div>
     </div>
 
     <div class="actions">
-      <button class="btn primary" id="play">Play the spread</button>
-      <button class="btn" id="export">Print-size image</button>
+      <button class="btn primary" id="play" data-i18n="btnPlay"></button>
+      <button class="btn" id="export" data-i18n="btnExport"></button>
     </div>
 
     <div class="stats" id="stats" aria-live="polite"></div>
 
-    <div class="foot">
-      Roads, cycle-junction network and ferries © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors (ODbL), November 2026. Outlines: CBS via cartomap. Travel times are estimates from road class and speed limits (car) or a steady 16 km/h (bike), plus 10 minutes per ferry. No traffic, no traffic lights, no headwind. After <a href="https://all-roads-lead-to.netlify.app/" target="_blank" rel="noopener">All Roads Lead To</a> and Arterial Mapping's <a href="https://arterialmapping.wordpress.com/2022/03/20/all-roads-lead-to-richmond-2/" target="_blank" rel="noopener">All Roads Lead to Richmond</a>.
-    </div>
+    <div class="foot" data-i18n-html="foot"></div>
   </aside>
 
   <main class="stage">
     <div class="poster" id="poster">
-      <canvas id="map" aria-label="Poster map of routes in the Netherlands"></canvas>
+      <canvas id="map" data-i18n-attr="aria-label:ariaMap"></canvas>
       <canvas id="over" aria-hidden="true"></canvas>
       <div class="zoom">
-        <button id="zin" aria-label="Zoom in">+</button>
-        <button id="zout" aria-label="Zoom out">−</button>
-        <button id="zreset" aria-label="Show the whole country" title="Whole country">⤢</button>
+        <button id="zin" data-i18n-attr="aria-label:zIn;title:zIn">+</button>
+        <button id="zout" data-i18n-attr="aria-label:zOut;title:zOut">−</button>
+        <button id="zreset" data-i18n-attr="aria-label:zReset;title:zReset">⤢</button>
       </div>
       <div class="tip" id="tip" hidden></div>
-      <div class="loading" id="loading">Loading the road network…</div>
+      <div class="loading" id="loading"></div>
     </div>
   </main>
 </div>
 
 <div class="modal" id="modal" hidden>
   <div class="box">
-    <img id="modal-img" alt="Print-size poster">
+    <img id="modal-img" data-i18n-attr="alt:modalAlt">
     <div class="bar">
-      <span id="modal-note">Right-click or long-press the image to save it.</span>
-      <span style="display:flex;gap:8px"><a class="btn" id="modal-dl" download="alle-wegen.png" href="#">Download PNG</a><button class="btn" id="modal-close">Close</button></span>
+      <span id="modal-note"></span>
+      <span style="display:flex;gap:8px"><a class="btn" id="modal-dl" download="poster.png" href="#" data-i18n="modalDl"></a><button class="btn" id="modal-close" data-i18n="modalClose"></button></span>
     </div>
   </div>
 </div>
@@ -261,10 +268,140 @@ const STYLES = {
   delft: { water: "#e9edf5", land: "#fdfdfb", prov: "#d6dcea", ink: "#16306b", muted: "#5b6c96", halo: "#fdfdfb", neutral: "#b7c2dc",
     br: ["#173a8a", "#4f78c9", "#0b2460", "#7b9ad8", "#2c51a4", "#98b2e3", "#1e449a", "#6286cf", "#123070", "#a9bfe8", "#3a60b5", "#86a4dd"] },
 };
-const MODEHINT = {
-  car: "Motorways down to local through-roads, with car ferries.",
-  bike: "The national fietsknooppunten network: about 12,300 numbered cycle junctions, plus bike ferries.",
+/* =========================================================== language (EN / NL) */
+const FOOT_LINKS = {
+  osm: `<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>`,
+  arl: `<a href="https://all-roads-lead-to.netlify.app/" target="_blank" rel="noopener">All Roads Lead To</a>`,
+  rich: `<a href="https://arterialmapping.wordpress.com/2022/03/20/all-roads-lead-to-richmond-2/" target="_blank" rel="noopener">All Roads Lead to Richmond</a>`,
 };
+const I18N = {
+  en: {
+    pageTitle: "All Roads Lead To", railLabel: "Map controls",
+    brandTitle: "All roads lead to…",
+    brandSub: "Every junction in the Netherlands, routed to one place. Line width shows how much of the country flows down each road.",
+    ariaNetwork: "Network", modeCar: "Car roads", modeBike: "Cycle routes",
+    hintCar: "Motorways down to local through-roads, with car ferries.",
+    hintBike: "The national cycle-junction network (fietsknooppunten): about 12,300 numbered junctions, plus bike ferries.",
+    lblMap: "Map", ariaMapType: "Map type", kindOne: "One place", kindRivals: "Rival cities", kindMeet: "Meet halfway",
+    lblDest: "Destination", destPh: "Type a town or village", destHint: "Or click anywhere on the map to send every route there.",
+    lblCities: "Cities that compete", prBiggest: "Biggest", prCapitals: "Provincial capitals", prClear: "Clear", ariaNbig: "Number of biggest cities",
+    rivalsHint: "Every junction drains to whichever city it reaches first. Click the map to add a city, or click one to remove it.",
+    lblWho: "Who is coming", prG4: "G4 cities", prCorners: "Four corners", prUnis: "University towns",
+    meetHint: "Click the map to add someone (up to 8), or click a marker to remove them.",
+    lblBest: "Best spot means", ariaObjective: "Meeting objective", objFair: "Shortest longest trip", objTotal: "Least total",
+    lblRoute: "Route by", routeTime: "Time", routeDist: "Distance",
+    lblWeight: "Width counts", ariaWeight: "Line width counts", wArea: "Land", wPop: "People",
+    lblBranches: "Coloured branches", lblStyle: "Poster style", stPaper: "Paper", stNight: "Night", stDelft: "Delft blue",
+    chkLabels: "Place names", chkChrome: "Title & legend", btnPlay: "Play the spread", btnExport: "Print-size image",
+    foot: `Roads, cycle-junction network and ferries © ${FOOT_LINKS.osm} contributors (ODbL), November 2026. Outlines: CBS via cartomap. Travel times are estimates from road class and speed limits (car) or a steady 16 km/h (bike), plus 10 minutes per ferry. No traffic, no traffic lights, no headwind. After ${FOOT_LINKS.arl} and Arterial Mapping's ${FOOT_LINKS.rich}.`,
+    ariaMap: "Poster map of routes in the Netherlands", zIn: "Zoom in", zOut: "Zoom out", zReset: "Show the whole country",
+    loadCar: "Loading the road network…", loadBike: "Loading the cycle network…",
+    loadFail: "The map data did not load. Serve this folder over http (for example: python3 -m http.server) and reload.",
+    modalAlt: "Print-size poster", modalNote: "Right-click or long-press the image to save it.", modalDl: "Download PNG", modalClose: "Close",
+    noteSaved: "Saved.", noteCancelled: "Download cancelled.", noteUnavailable: "Downloading is not available here. Right-click or long-press the image to save it.",
+    emptyCities: "Add a city by clicking the map, or pick a preset.",
+    emptyTravellers: "Add at least two travellers by clicking the map, or pick a preset.",
+    eyeCar: "All roads lead to", eyeBike: "All cycle routes lead to", eyeFair: "Meet fairly in", eyeTotal: "Meet up in",
+    byTime: "fastest time", byDist: "shortest distance",
+    subOneCar: "Every road junction in the Netherlands, routed to {dest} by {by}.",
+    subOneBike: "Every cycle junction in the Netherlands, routed to {dest} by {by}.",
+    bigCities: "{n} cities",
+    subRivalsCar: "Every junction drains to whichever of these {n} cities it reaches first, by {by}.",
+    subRivalsBike: "Every cycle junction drains to whichever of these {n} cities it reaches first, by {by}.",
+    subFairCar: "The spot that keeps the longest drive as short as possible for {n} travellers.",
+    subFairBike: "The spot that keeps the longest ride as short as possible for {n} travellers.",
+    subTotalCar: "The spot with the least driving in total for {n} travellers.",
+    subTotalBike: "The spot with the least cycling in total for {n} travellers.",
+    clockDist: "along the road", clockTime: "from the destination",
+    legMeet: "Travellers · trip", legCities: "Cities · share of {w}", legBranches: "Branches · share of {w}", legArea: "land", legPop: "people",
+    knp: "jct", fromPlace: "from {p}", nearby: "nearby", credit: "© OpenStreetMap contributors · CBS",
+    stLongest: "Longest trip", stTotal: "All trips together",
+    stMeanArea: "Average trip (by land)", stMeanPop: "Average trip (by people)",
+    stHalfArea: "Half the land is within", stHalfPop: "Half the people are within", stFar: "Farthest junction",
+    stShareOfArea: "{pct}% of land", stShareOfPop: "{pct}% of people",
+    removeX: "Remove {x}", tipKnp: "Junctions", hourAbbr: "h",
+    fileCar: "all-roads", fileBike: "all-cycle-routes",
+  },
+  nl: {
+    pageTitle: "Alle Wegen Leiden Naar", railLabel: "Kaartinstellingen",
+    brandTitle: "Alle wegen leiden naar…",
+    brandSub: "Elk knooppunt in Nederland naar één plek gerouteerd. Hoe dikker de lijn, hoe meer van het land over die weg komt.",
+    ariaNetwork: "Netwerk", modeCar: "Autoroutes", modeBike: "Fietsroutes",
+    hintCar: "Van snelweg tot doorgaande lokale weg, inclusief autoveren.",
+    hintBike: "Het landelijke fietsknooppuntennetwerk: zo'n 12.300 genummerde knooppunten, plus fietsveren.",
+    lblMap: "Kaart", ariaMapType: "Soort kaart", kindOne: "Eén plek", kindRivals: "Stedenstrijd", kindMeet: "Halverwege",
+    lblDest: "Bestemming", destPh: "Typ een stad of dorp", destHint: "Of klik ergens op de kaart om alle routes daarheen te sturen.",
+    lblCities: "Steden in de strijd", prBiggest: "Grootste", prCapitals: "Provinciehoofdsteden", prClear: "Wissen", ariaNbig: "Aantal grootste steden",
+    rivalsHint: "Elk knooppunt hoort bij de stad die het als eerste bereikt. Klik op de kaart om een stad toe te voegen, of op een stad om haar weg te halen.",
+    lblWho: "Wie komen er", prG4: "G4-steden", prCorners: "Vier hoeken", prUnis: "Universiteitssteden",
+    meetHint: "Klik op de kaart om iemand toe te voegen (maximaal 8), of op een markering om die weg te halen.",
+    lblBest: "Beste plek is", ariaObjective: "Doel van de afspraak", objFair: "Eerlijkst", objTotal: "Minst in totaal",
+    lblRoute: "Route op", routeTime: "Tijd", routeDist: "Afstand",
+    lblWeight: "Dikte telt", ariaWeight: "Waar de lijndikte voor staat", wArea: "Land", wPop: "Mensen",
+    lblBranches: "Gekleurde takken", lblStyle: "Posterstijl", stPaper: "Papier", stNight: "Nacht", stDelft: "Delfts blauw",
+    chkLabels: "Plaatsnamen", chkChrome: "Titel & legenda", btnPlay: "Speel af", btnExport: "Groot formaat",
+    foot: `Wegen, fietsknooppuntennetwerk en veren © ${FOOT_LINKS.osm}-bijdragers (ODbL), november 2026. Grenzen: CBS via cartomap. Reistijden zijn schattingen op basis van wegklasse en maximumsnelheid (auto) of een constante 16 km/u (fiets), plus 10 minuten per veer. Geen files, geen verkeerslichten, geen tegenwind. Naar ${FOOT_LINKS.arl} en ${FOOT_LINKS.rich} van Arterial Mapping.`,
+    ariaMap: "Posterkaart van routes in Nederland", zIn: "Inzoomen", zOut: "Uitzoomen", zReset: "Heel Nederland tonen",
+    loadCar: "Wegennet laden…", loadBike: "Fietsnetwerk laden…",
+    loadFail: "De kaartgegevens zijn niet geladen. Open deze map via http (bijvoorbeeld met python3 -m http.server) en laad opnieuw.",
+    modalAlt: "Poster op groot formaat", modalNote: "Klik met rechts op de afbeelding, of houd haar ingedrukt, om haar op te slaan.", modalDl: "PNG downloaden", modalClose: "Sluiten",
+    noteSaved: "Opgeslagen.", noteCancelled: "Download geannuleerd.", noteUnavailable: "Downloaden kan hier niet. Klik met rechts op de afbeelding, of houd haar ingedrukt, om haar op te slaan.",
+    emptyCities: "Klik op de kaart om een stad toe te voegen, of kies een voorinstelling.",
+    emptyTravellers: "Voeg minstens twee reizigers toe door op de kaart te klikken, of kies een voorinstelling.",
+    eyeCar: "Alle wegen leiden naar", eyeBike: "Alle fietsroutes leiden naar", eyeFair: "Eerlijk afspreken in", eyeTotal: "Samen afspreken in",
+    byTime: "snelste route", byDist: "kortste route",
+    subOneCar: "Elk kruispunt in Nederland, via de {by} naar {dest}.",
+    subOneBike: "Elk fietsknooppunt in Nederland, via de {by} naar {dest}.",
+    bigCities: "{n} steden",
+    subRivalsCar: "Elk kruispunt hoort bij de stad uit deze {n} die het via de {by} als eerste bereikt.",
+    subRivalsBike: "Elk fietsknooppunt hoort bij de stad uit deze {n} die het via de {by} als eerste bereikt.",
+    subFairCar: "De plek waar de langste autorit voor {n} reizigers zo kort mogelijk is.",
+    subFairBike: "De plek waar de langste fietstocht voor {n} reizigers zo kort mogelijk is.",
+    subTotalCar: "De plek met de minste rijtijd in totaal voor {n} reizigers.",
+    subTotalBike: "De plek met de minste fietstijd in totaal voor {n} reizigers.",
+    clockDist: "langs de weg", clockTime: "vanaf de bestemming",
+    legMeet: "Reizigers · rit", legCities: "Steden · aandeel {w}", legBranches: "Takken · aandeel {w}", legArea: "land", legPop: "mensen",
+    knp: "knp", fromPlace: "vanuit {p}", nearby: "dichtbij", credit: "© OpenStreetMap-bijdragers · CBS",
+    stLongest: "Langste rit", stTotal: "Alle ritten samen",
+    stMeanArea: "Gemiddelde rit (naar land)", stMeanPop: "Gemiddelde rit (naar mensen)",
+    stHalfArea: "Helft van het land binnen", stHalfPop: "Helft van de mensen binnen", stFar: "Verste knooppunt",
+    stShareOfArea: "{pct}% van het land", stShareOfPop: "{pct}% van de mensen",
+    removeX: "{x} weghalen", tipKnp: "Knooppunten", hourAbbr: "u",
+    fileCar: "alle-wegen", fileBike: "alle-fietsroutes",
+  },
+};
+const LANG_KEY = "nl-road-map:lang";
+let LANG = (() => {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q === "en" || q === "nl") return q;
+  try { const v = localStorage.getItem(LANG_KEY); if (v === "en" || v === "nl") return v; } catch (e) { /* storage blocked */ }
+  return /^nl\b/i.test(navigator.language || "") ? "nl" : "en";
+})();
+function tx(key, vars) {
+  let s = (I18N[LANG] && I18N[LANG][key]) ?? I18N.en[key] ?? key;
+  if (vars) for (const k in vars) s = s.split("{" + k + "}").join(vars[k]);
+  return s;
+}
+function fmtNum(v, digits = 0) { return v.toLocaleString(LANG === "nl" ? "nl-NL" : "en-GB", { minimumFractionDigits: digits, maximumFractionDigits: digits }); }
+function applyLang() {
+  document.documentElement.lang = LANG;
+  document.title = tx("pageTitle");
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = tx(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => { el.innerHTML = tx(el.dataset.i18nHtml); });
+  document.querySelectorAll("[data-i18n-attr]").forEach(el => {
+    for (const pair of el.dataset.i18nAttr.split(";")) { const [attr, key] = pair.split(":"); el.setAttribute(attr, tx(key)); }
+  });
+  setPressed("[data-lang]", "lang", LANG);
+  document.getElementById("mode-hint").textContent = tx(S.mode === "bike" ? "hintBike" : "hintCar");
+  const ld = document.getElementById("loading"); if (!ld.hidden) ld.textContent = tx(S.mode === "bike" ? "loadBike" : "loadCar");
+  if (G && NLD) { render(); updateStats(); renderTags(); }
+}
+document.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => {
+  if (LANG === b.dataset.lang) return;
+  LANG = b.dataset.lang;
+  try { localStorage.setItem(LANG_KEY, LANG); } catch (e) { /* storage blocked */ }
+  applyLang();
+});
 
 /* =========================================================== state */
 const S = {
@@ -369,10 +506,10 @@ function placeNear(x, y, maxU = 1800) { // pick a recognisable nearby place name
 }
 function fmtTime(sec) {
   const m = Math.round(sec / 60); if (m < 60) return m + " min";
-  const h = Math.floor(m / 60), mm = m % 60; return `${h} h ${String(mm).padStart(2, "0")} min`;
+  const h = Math.floor(m / 60), mm = m % 60; return `${h} ${tx("hourAbbr")} ${String(mm).padStart(2, "0")} min`;
 }
 function fmtClock(sec) { const m = Math.round(sec / 60); return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`; }
-function fmtKm(m) { return m < 10000 ? (m / 1000).toFixed(1) + " km" : Math.round(m / 1000) + " km"; }
+function fmtKm(m) { return m < 10000 ? fmtNum(m / 1000, 1) + " km" : fmtNum(Math.round(m / 1000)) + " km"; }
 function slug(s) { return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
 function pt(p, name) { return { x: p.x, y: p.y, name: name || p.n }; }
 function place(name) { return NLD.byName.get(name.toLowerCase()); }
@@ -425,10 +562,10 @@ function compute() {
     if (!S.dest) return null;
     srcs = [nearestJ(S.dest.x, S.dest.y)];
   } else if (S.kind === "rivals") {
-    if (!S.cities.length) return { empty: "Add a city by clicking the map, or pick a preset." };
+    if (!S.cities.length) return { empty: "emptyCities" };
     srcs = S.cities.map(c => nearestJ(c.x, c.y));
   } else {
-    if (S.travelers.length < 2) return { empty: "Add at least two travellers by clicking the map, or pick a preset." };
+    if (S.travelers.length < 2) return { empty: "emptyTravellers" };
     const tj = S.travelers.map(t => nearestJ(t.x, t.y));
     const ds = tj.map(distFrom), fair = S.objective === "fair";
     let bv = Infinity;
@@ -678,20 +815,13 @@ function wrap(c, txt, maxW) {
   if (cur) lines.push(cur); return lines;
 }
 function posterText() {
-  const car = G.mode === "car", by = S.route === "dist" ? "shortest distance" : "fastest time";
-  if (!R || R.empty) return { eyebrow: car ? "Alle wegen leiden naar" : "Alle fietsroutes leiden naar", big: "…", sub: R && R.empty ? R.empty : "" };
-  if (R.kind === "one") return {
-    eyebrow: car ? "Alle wegen leiden naar" : "Alle fietsroutes leiden naar", big: S.dest.name,
-    sub: car ? `Every road junction in the Netherlands, routed to ${S.dest.name} by ${by}.` : `Every fietsknooppunt in the Netherlands, routed to ${S.dest.name} by ${by}.`,
-  };
-  if (R.kind === "rivals") return {
-    eyebrow: car ? "Alle wegen leiden naar" : "Alle fietsroutes leiden naar", big: `${S.cities.length} steden`,
-    sub: `Every ${car ? "junction" : "cycle junction"} drains to whichever of these ${S.cities.length} cities it reaches first, by ${by}.`,
-  };
-  return {
-    eyebrow: S.objective === "fair" ? "Eerlijk afspreken in" : "Samen afspreken in", big: R.spotName,
-    sub: S.objective === "fair" ? `The spot that keeps the longest ${car ? "drive" : "ride"} as short as possible for ${S.travelers.length} travellers.` : `The spot with the least ${car ? "driving" : "cycling"} in total for ${S.travelers.length} travellers.`,
-  };
+  const car = G.mode === "car", by = tx(S.route === "dist" ? "byDist" : "byTime"), eye = tx(car ? "eyeCar" : "eyeBike");
+  if (!R || R.empty) return { eyebrow: eye, big: "…", sub: R && R.empty ? tx(R.empty) : "" };
+  if (R.kind === "one") return { eyebrow: eye, big: S.dest.name, sub: tx(car ? "subOneCar" : "subOneBike", { dest: S.dest.name, by }) };
+  const n = S.cities.length;
+  if (R.kind === "rivals") return { eyebrow: eye, big: tx("bigCities", { n }), sub: tx(car ? "subRivalsCar" : "subRivalsBike", { n, by }) };
+  const fair = S.objective === "fair", m = S.travelers.length;
+  return { eyebrow: tx(fair ? "eyeFair" : "eyeTotal"), big: R.spotName, sub: tx((fair ? "subFair" : "subTotal") + (car ? "Car" : "Bike"), { n: m }) };
 }
 function setFont(c, weight, size, family, stretch) {
   c.font = `${weight} ${stretch ? stretch + " " : ""}${size}px ${family}`;
@@ -721,7 +851,7 @@ function drawChrome(c, W, H, st, clock) {
     if (clock != null) {
       y += 12 * k; setFont(c, 600, 26 * k, fM); c.fillStyle = st.ink;
       c.fillText((S.route === "dist" ? fmtKm(clock) : fmtClock(clock)), x0, y + 8 * k);
-      setFont(c, 400, 12 * k, fM); c.fillStyle = st.muted; c.fillText(S.route === "dist" ? "along the road" : "from the destination", x0, y + 28 * k);
+      setFont(c, 400, 12 * k, fM); c.fillStyle = st.muted; c.fillText(tx(S.route === "dist" ? "clockDist" : "clockTime"), x0, y + 28 * k);
     }
     // legend
     if (R && !R.empty && R.info.length) {
@@ -729,7 +859,7 @@ function drawChrome(c, W, H, st, clock) {
       const rows = Math.min(6, Math.ceil(L.length / 2)), cols = Math.ceil(L.length / rows), colW = W * 0.27, rowH = 21 * k;
       const ly = H - 34 * k - rows * rowH;
       setFont(c, 600, 10.5 * k, fM); c.fillStyle = st.muted; if ("letterSpacing" in c) c.letterSpacing = `${1.2 * k}px`;
-      const what = R.kind === "meet" ? "TRAVELLERS · TRIP" : R.kind === "rivals" ? `CITIES · SHARE OF ${S.weight === "pop" ? "PEOPLE" : "LAND"}` : `BRANCHES · SHARE OF ${S.weight === "pop" ? "PEOPLE" : "LAND"}`;
+      const what = (R.kind === "meet" ? tx("legMeet") : tx(R.kind === "rivals" ? "legCities" : "legBranches", { w: tx(S.weight === "pop" ? "legPop" : "legArea") })).toUpperCase();
       c.fillText(what, x0, ly - 10 * k); if ("letterSpacing" in c) c.letterSpacing = "0px";
       L.forEach((it, i) => {
         const cx = x0 + Math.floor(i / rows) * colW, cy = ly + (i % rows) * rowH + rowH / 2;
@@ -739,8 +869,8 @@ function drawChrome(c, W, H, st, clock) {
         if (R.kind === "meet") { txt = it.name; val = S.route === "dist" ? fmtKm(it.K) : fmtClock(it.T); }
         else if (R.kind === "rivals") { txt = it.name; val = Math.round(it.share * 100) + "%"; }
         else {
-          const via = G.mode === "car" ? (it.road && it.road !== it.from ? it.road + " · " : "") : (it.ref ? "knp " + it.ref + " · " : "");
-          txt = via + (it.from ? "from " + it.from : "nearby");
+          const via = G.mode === "car" ? (it.road && it.road !== it.from ? it.road + " · " : "") : (it.ref ? tx("knp") + " " + it.ref + " · " : "");
+          txt = via + (it.from ? tx("fromPlace", { p: it.from }) : tx("nearby"));
           val = (it.share < 0.01 ? "<1" : Math.round(it.share * 100)) + "%";
         }
         setFont(c, 500, 12.5 * k, fD); c.fillStyle = st.ink; c.textBaseline = "middle";
@@ -764,7 +894,7 @@ function drawChrome(c, W, H, st, clock) {
   setFont(c, 500, 10.5 * k, fM); c.fillStyle = st.ink; c.textBaseline = "alphabetic";
   c.fillText(km + " km", bx, by - 9 * k);
   c.fillStyle = st.muted; setFont(c, 400, 9.5 * k, fM);
-  const cr = "© OpenStreetMap contributors · CBS";
+  const cr = tx("credit");
   c.fillText(cr, W - 40 * k - c.measureText(cr).width, H - 22 * k);
 }
 
@@ -811,17 +941,17 @@ function recompute() {
 }
 function updateStats() {
   const el = document.getElementById("stats");
-  if (!R || R.empty) { el.innerHTML = R && R.empty ? `<div class="hint">${R.empty}</div>` : ""; return; }
-  const d = S.route === "dist", f = v => d ? fmtKm(v) : fmtTime(v), who = S.weight === "pop" ? "people" : "land";
+  if (!R || R.empty) { el.innerHTML = R && R.empty ? `<div class="hint">${tx(R.empty)}</div>` : ""; return; }
+  const d = S.route === "dist", f = v => d ? fmtKm(v) : fmtTime(v), pop = S.weight === "pop";
   const rows = [];
   if (R.kind === "meet") {
     R.info.forEach(t => rows.push([t.name, `${fmtTime(t.T)} · ${fmtKm(t.K)}`]));
     const tot = R.info.reduce((a, t) => a + t.T, 0), mx = Math.max(...R.info.map(t => t.T));
-    rows.push(["Longest trip", fmtTime(mx)], ["All trips together", fmtTime(tot)]);
+    rows.push([tx("stLongest"), fmtTime(mx)], [tx("stTotal"), fmtTime(tot)]);
   } else {
     const farP = placeNear(G.JX[R.far], G.JY[R.far], 3000);
-    rows.push([`Average trip (by ${who})`, f(R.mean)], [`Half the ${who} is within`, f(R.median)], ["Farthest junction", `${farP.n}, ${f(R.dist[R.far])}`]);
-    if (R.kind === "rivals") R.info.slice(0, 5).forEach(c => rows.push([c.name, Math.round(c.share * 100) + "% of " + who]));
+    rows.push([tx(pop ? "stMeanPop" : "stMeanArea"), f(R.mean)], [tx(pop ? "stHalfPop" : "stHalfArea"), f(R.median)], [tx("stFar"), `${farP.n}, ${f(R.dist[R.far])}`]);
+    if (R.kind === "rivals") R.info.slice(0, 5).forEach(c => rows.push([c.name, tx(pop ? "stShareOfPop" : "stShareOfArea", { pct: Math.round(c.share * 100) })]));
   }
   el.innerHTML = rows.map(r => `<div class="stat"><span>${r[0]}</span><span>${r[1]}</span></div>`).join("");
 }
@@ -859,7 +989,7 @@ function renderTags() {
   const st = STYLES[S.style];
   const mk = (list, id, remove) => {
     const el = document.getElementById(id);
-    el.innerHTML = list.map((c, i) => `<span class="tag"><i style="background:${R && R.kind === S.kind && !R.empty && R.info ? (R.kind === "rivals" ? st.br[(R.info.find(x => x.name === c.name) || { color: i }).color % st.br.length] : st.br[i % st.br.length]) : st.br[i % st.br.length]}"></i>${c.name}<button data-i="${i}" aria-label="Remove ${c.name}">×</button></span>`).join("");
+    el.innerHTML = list.map((c, i) => `<span class="tag"><i style="background:${R && R.kind === S.kind && !R.empty && R.info ? (R.kind === "rivals" ? st.br[(R.info.find(x => x.name === c.name) || { color: i }).color % st.br.length] : st.br[i % st.br.length]) : st.br[i % st.br.length]}"></i>${c.name}<button data-i="${i}" aria-label="${tx("removeX", { x: c.name })}">×</button></span>`).join("");
     el.querySelectorAll("button").forEach(b => b.onclick = () => { list.splice(+b.dataset.i, 1); presetOff(); recompute(); renderTags(); });
   };
   mk(S.cities, "city-tags"); mk(S.travelers, "trav-tags");
@@ -875,9 +1005,9 @@ function showPanels() {
 async function setMode(m) {
   S.mode = m; document.documentElement.dataset.mode = m;
   setPressed("[data-mode]", "mode", m);
-  document.getElementById("mode-hint").textContent = MODEHINT[m];
+  document.getElementById("mode-hint").textContent = tx(m === "bike" ? "hintBike" : "hintCar");
   document.getElementById("loading").hidden = false;
-  document.getElementById("loading").textContent = m === "bike" ? "Loading the cycle network…" : "Loading the road network…";
+  document.getElementById("loading").textContent = tx(m === "bike" ? "loadBike" : "loadCar");
   G = await loadGraph(m);
   document.getElementById("loading").hidden = true;
   recompute(); renderTags();
@@ -966,7 +1096,7 @@ function hover(px, py, e) {
     let html = `<b>${from}</b> → ${to}<br>${fmtTime(R.T[j])} · ${fmtKm(R.K[j])}`;
     if (G.mode === "bike") {
       const refs = []; for (let v = j; v >= 0; v = R.par[v]) { const r = G.jref[v]; if (r && refs[refs.length - 1] !== r) refs.push(r); }
-      if (refs.length) html += `<div class="k">Knooppunten: ${refs.length > 18 ? refs.slice(0, 17).join(" › ") + " › … › " + refs[refs.length - 1] : refs.join(" › ")}</div>`;
+      if (refs.length) html += `<div class="k">${tx("tipKnp")}: ${refs.length > 18 ? refs.slice(0, 17).join(" › ") + " › … › " + refs[refs.length - 1] : refs.join(" › ")}</div>`;
     } else {
       const roads = []; for (let v = j; v >= 0 && R.par[v] >= 0; v = R.par[v]) { const nm = G.names[G.ln[R.parL[v]]]; if (/^[AN]\d+$/.test(nm) && roads[roads.length - 1] !== nm) roads.push(nm); }
       if (roads.length) html += `<div class="k">Via ${roads.slice(0, 9).join(" › ")}${roads.length > 9 ? " › …" : ""}</div>`;
@@ -1048,7 +1178,8 @@ document.getElementById("export").onclick = () => {
     const url = URL.createObjectURL(b);
     document.getElementById("modal-img").src = url;
     const dl = document.getElementById("modal-dl"); dl.href = url;
-    dl.download = `alle-${G.mode === "car" ? "wegen" : "fietsroutes"}-${slug(posterText().big)}.png`;
+    dl.download = `${tx(G.mode === "car" ? "fileCar" : "fileBike")}-${slug(posterText().big)}.png`;
+    document.getElementById("modal-note").textContent = tx("modalNote");
     document.getElementById("modal").hidden = false;
   }, "image/png");
 };
@@ -1061,8 +1192,8 @@ document.getElementById("modal-dl").addEventListener("click", async e => {
   if (!DL || !lastBlob) return; // local: the normal link does the work
   e.preventDefault();
   const note = document.getElementById("modal-note");
-  try { await DL.save({ filename: e.currentTarget.download, data: lastBlob }); note.textContent = "Saved."; }
-  catch (err) { note.textContent = err && err.code === "declined" ? "Download cancelled." : "Downloading is not available here. Right-click or long-press the image to save it."; }
+  try { await DL.save({ filename: e.currentTarget.download, data: lastBlob }); note.textContent = tx("noteSaved"); }
+  catch (err) { note.textContent = tx(err && err.code === "declined" ? "noteCancelled" : "noteUnavailable"); }
 });
 document.getElementById("modal-close").onclick = () => { document.getElementById("modal").hidden = true; };
 document.getElementById("modal").onclick = e => { if (e.target.id === "modal") e.currentTarget.hidden = true; };
@@ -1072,6 +1203,7 @@ window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() =
 window.addEventListener("hashchange", () => { if (readHash()) { document.getElementById("dest").value = S.dest.name; S.kind = "one"; setPressed("[data-kind]", "kind", "one"); showPanels(); setMode(S.mode); } });
 
 /* boot */
+applyLang();
 (async () => {
   try {
     await loadShared();
@@ -1086,7 +1218,7 @@ window.addEventListener("hashchange", () => { if (readHash()) { document.getElem
   } catch (err) {
     console.error(err);
     const l = document.getElementById("loading"); l.hidden = false;
-    l.textContent = "The map data did not load. Serve this folder over http (for example: python3 -m http.server) and reload.";
+    l.textContent = tx("loadFail");
   }
 })();
 </script>

@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Alle Wegen Leiden Naar</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cpath d=%22M16 16 4 6M16 16 28 9M16 16 9 28M16 16 25 27%22 stroke=%22%231f4ea3%22 stroke-width=%223%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%224.5%22 fill=%22%23fff%22 stroke=%22%231f4ea3%22 stroke-width=%222.5%22/%3E%3C/svg%3E">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a narrow control rail beside one large poster canvas; the poster is the page. Stacks under the poster on phones. */
+:root {
+  --bg: #eceeed;
+  --panel: #f8f9f8;
+  --ink: #1b2026;
+  --muted: #5f666e;
+  --line: #d3d8da;
+  --chip: #e2e6e7;
+  --car: #1f4ea3;      /* ANWB route-sign blue */
+  --bike: #b4412d;     /* rood fietspad asphalt */
+  --accent: var(--car);
+  --on-accent: #ffffff;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "Spline Sans Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1316; --panel: #161b20; --ink: #e6e9ea; --muted: #949ca5; --line: #2a3138; --chip: #20262c;
+    --car: #7ea6ff; --bike: #ff8a6e; --on-accent: #0f1316; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1316; --panel: #161b20; --ink: #e6e9ea; --muted: #949ca5; --line: #2a3138; --chip: #20262c;
+  --car: #7ea6ff; --bike: #ff8a6e; --on-accent: #0f1316; color-scheme: dark;
+}
+:root[data-mode="bike"] { --accent: var(--bike); }
+
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 14.5px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px; box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: inherit; }
+.app { display: grid; grid-template-columns: 318px minmax(0, 1fr); gap: 20px; align-items: start; max-width: 1760px; margin: 0 auto; }
+@media (max-width: 920px) { .app { grid-template-columns: minmax(0, 1fr); } .rail { order: 2; } }
+
+.rail { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 14px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.brand { display: flex; flex-direction: column; gap: 4px; }
+.brand h1 { margin: 0; font-family: var(--font-display); font-stretch: 125%; font-weight: 850; font-size: 21px; line-height: 1.05; letter-spacing: -0.01em; text-wrap: balance; }
+.brand p { margin: 0; color: var(--muted); font-size: 13.5px; }
+
+.group { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.label { font-family: var(--font-data); font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
+.label output { color: var(--ink); letter-spacing: 0; }
+.hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--chip); border-radius: 8px; padding: 3px; gap: 3px; }
+.seg button { appearance: none; border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 13px; font-weight: 550; padding: 6px 6px; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.seg button:hover { background: color-mix(in srgb, var(--panel) 60%, transparent); }
+.seg button[aria-pressed="true"] { background: var(--panel); box-shadow: 0 1px 2px rgb(0 0 0 / 0.12); color: var(--accent); }
+.seg.big button { font-size: 14px; padding: 8px 6px; font-weight: 650; }
+.seg svg { width: 18px; height: 18px; flex: none; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { appearance: none; border: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-size: 12.5px; padding: 4px 10px; border-radius: 999px; cursor: pointer; }
+.chip:hover { border-color: var(--accent); }
+.chip.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; background: var(--chip); border-radius: 5px; padding: 2px 4px 2px 7px; }
+.tag i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.tag button { appearance: none; border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 14px; line-height: 1; padding: 0 3px; }
+.tag button:hover { color: var(--ink); }
+
+input[type="text"] { width: 100%; font: inherit; font-size: 15px; padding: 8px 10px; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.check { display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; }
+.check input { accent-color: var(--accent); width: 15px; height: 15px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn { text-decoration: none; appearance: none; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-size: 13.5px; font-weight: 600; padding: 9px 10px; border-radius: 8px; cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.stats { border-top: 1px solid var(--line); padding-top: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.stat { display: flex; justify-content: space-between; gap: 10px; }
+.stat span:first-child { color: var(--muted); }
+.stat span:last-child { font-family: var(--font-data); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; }
+.foot { font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+.foot a { color: inherit; }
+
+.stage { position: relative; min-width: 0; display: flex; justify-content: center; }
+.poster { position: relative; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgb(0 0 0 / 0.08), 0 12px 32px -14px rgb(0 0 0 / 0.25); max-width: 100%; }
+.poster canvas { display: block; }
+#map { touch-action: pan-y; cursor: crosshair; }
+#map.grab { cursor: grabbing; }
+#over { position: absolute; inset: 0; pointer-events: none; }
+.zoom { position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 4px; }
+.zoom button { appearance: none; width: 32px; height: 32px; border-radius: 7px; border: 1px solid rgb(0 0 0 / 0.15); background: rgb(255 255 255 / 0.85); color: #1b2026; font-size: 17px; font-weight: 600; cursor: pointer; backdrop-filter: blur(4px); }
+.zoom button:hover { background: #fff; }
+@media (max-width: 600px) { .zoom { top: 8px; right: 8px; } .zoom button { width: 26px; height: 26px; font-size: 14px; } }
+.tip { position: absolute; pointer-events: none; background: rgb(20 24 30 / 0.92); color: #f2f2f0; font-size: 12.5px; line-height: 1.4; padding: 7px 10px; border-radius: 7px; max-width: 280px; box-shadow: 0 4px 14px rgb(0 0 0 / 0.25); }
+.tip b { font-weight: 650; }
+.tip .k { font-family: var(--font-data); font-size: 11.5px; color: #c9ccd0; overflow-wrap: anywhere; }
+.loading { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-data); font-size: 13px; color: #5f666e; background: transparent; }
+
+.modal { position: fixed; inset: 0; background: rgb(10 12 15 / 0.7); display: grid; place-items: center; z-index: 50; padding: 24px max(16px, env(safe-area-inset-right, 0px)) 24px max(16px, env(safe-area-inset-left, 0px)); }
+.modal .box { background: var(--panel); border-radius: 10px; padding: 16px; max-width: min(760px, 100%); max-height: 100%; display: flex; flex-direction: column; gap: 10px; }
+.modal img { max-width: 100%; max-height: calc(100vh - 170px); object-fit: contain; border-radius: 4px; border: 1px solid var(--line); }
+.modal .bar { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+</style>
+
+<div class="app">
+  <aside class="rail" aria-label="Map controls">
+    <div class="brand">
+      <h1>Alle wegen leiden naar…</h1>
+      <p>Every junction in the Netherlands, routed to one place. Line width shows how much of the country flows down each road.</p>
+    </div>
+
+    <div class="group">
+      <div class="seg big" role="group" aria-label="Network">
+        <button id="m-car" data-mode="car" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v2H3z"/><circle cx="7.5" cy="13" r="1"/><circle cx="16.5" cy="13" r="1"/></svg>Car roads</button>
+        <button id="m-bike" data-mode="bike" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="16" r="3.5"/><circle cx="18.5" cy="16" r="3.5"/><path d="M5.5 16 9 9h6l3.5 7M9 9l3 7h-1M13 6h3l-1 3"/></svg>Fietsroutes</button>
+      </div>
+      <p class="hint" id="mode-hint">Motorways down to local through-roads, with car ferries.</p>
+    </div>
+
+    <div class="group">
+      <div class="label">Map</div>
+      <div class="seg" role="group" aria-label="Map type">
+        <button data-kind="one" aria-pressed="true">One place</button>
+        <button data-kind="rivals" aria-pressed="false">Rival cities</button>
+        <button data-kind="meet" aria-pressed="false">Meet halfway</button>
+      </div>
+    </div>
+
+    <div class="group" id="p-one">
+      <label class="label" for="dest">Destination</label>
+      <input type="text" id="dest" list="placelist" placeholder="Type a town or village" autocomplete="off">
+      <datalist id="placelist"></datalist>
+      <p class="hint">Or click anywhere on the map to send every route there.</p>
+    </div>
+
+    <div class="group" id="p-rivals" hidden>
+      <div class="label">Cities that compete <output id="nb-out">12</output></div>
+      <div class="chips">
+        <button class="chip on" data-preset="biggest">Biggest</button>
+        <button class="chip" data-preset="capitals">Provincial capitals</button>
+        <button class="chip" data-preset="clear-c">Clear</button>
+      </div>
+      <input type="range" id="nbig" min="2" max="40" value="12" aria-label="Number of biggest cities">
+      <div class="tags" id="city-tags"></div>
+      <p class="hint">Every junction drains to whichever city it reaches first. Click the map to add a city, or click one to remove it.</p>
+    </div>
+
+    <div class="group" id="p-meet" hidden>
+      <div class="label">Who is coming</div>
+      <div class="chips">
+        <button class="chip on" data-preset="g4">G4 cities</button>
+        <button class="chip" data-preset="corners">Four corners</button>
+        <button class="chip" data-preset="unis">University towns</button>
+        <button class="chip" data-preset="clear-t">Clear</button>
+      </div>
+      <div class="tags" id="trav-tags"></div>
+      <p class="hint">Click the map to add someone (up to 8), or click a marker to remove them.</p>
+      <div class="label">Best spot means</div>
+      <div class="seg" role="group" aria-label="Meeting objective">
+        <button data-obj="fair" aria-pressed="true">Shortest longest trip</button>
+        <button data-obj="total" aria-pressed="false">Least total</button>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="group">
+        <div class="label">Route by</div>
+        <div class="seg" role="group" aria-label="Route by">
+          <button data-route="time" aria-pressed="true">Time</button>
+          <button data-route="dist" aria-pressed="false">Distance</button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="label">Width counts</div>
+        <div class="seg" role="group" aria-label="Line width counts">
+          <button data-weight="area" aria-pressed="true">Land</button>
+          <button data-weight="pop" aria-pressed="false">People</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="group" id="g-branches">
+      <label class="label" for="branches">Coloured branches <output id="br-out">7</output></label>
+      <input type="range" id="branches" min="1" max="12" value="7">
+    </div>
+
+    <div class="group">
+      <div class="label">Poster style</div>
+      <div class="seg" role="group" aria-label="Poster style">
+        <button data-style="paper" aria-pressed="true">Paper</button>
+        <button data-style="night" aria-pressed="false">Night</button>
+        <button data-style="delft" aria-pressed="false">Delfts blauw</button>
+      </div>
+      <div class="row2">
+        <label class="check"><input type="checkbox" id="labels" checked> Place names</label>
+        <label class="check"><input type="checkbox" id="chrome" checked> Title &amp; legend</label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="play">Play the spread</button>
+      <button class="btn" id="export">Print-size image</button>
+    </div>
+
+    <div class="stats" id="stats" aria-live="polite"></div>
+
+    <div class="foot">
+      Roads, cycle-junction network and ferries © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors (ODbL), November 2026. Outlines: CBS via cartomap. Travel times are estimates from road class and speed limits (car) or a steady 16 km/h (bike), plus 10 minutes per ferry. No traffic, no traffic lights, no headwind. After <a href="https://all-roads-lead-to.netlify.app/" target="_blank" rel="noopener">All Roads Lead To</a> and Arterial Mapping's <a href="https://arterialmapping.wordpress.com/2022/03/20/all-roads-lead-to-richmond-2/" target="_blank" rel="noopener">All Roads Lead to Richmond</a>.
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="poster" id="poster">
+      <canvas id="map" aria-label="Poster map of routes in the Netherlands"></canvas>
+      <canvas id="over" aria-hidden="true"></canvas>
+      <div class="zoom">
+        <button id="zin" aria-label="Zoom in">+</button>
+        <button id="zout" aria-label="Zoom out">−</button>
+        <button id="zreset" aria-label="Show the whole country" title="Whole country">⤢</button>
+      </div>
+      <div class="tip" id="tip" hidden></div>
+      <div class="loading" id="loading">Loading the road network…</div>
+    </div>
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="box">
+    <img id="modal-img" alt="Print-size poster">
+    <div class="bar">
+      <span id="modal-note">Right-click or long-press the image to save it.</span>
+      <span style="display:flex;gap:8px"><a class="btn" id="modal-dl" download="alle-wegen.png" href="#">Download PNG</a><button class="btn" id="modal-close">Close</button></span>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* =========================================================== styles */
+const STYLES = {
+  paper: { water: "#dde4e6", land: "#f7f6f2", prov: "#dcd8cc", ink: "#1d232b", muted: "#69707a", halo: "#f7f6f2", neutral: "#a9a69c",
+    br: ["#c63f2e", "#2a62b8", "#2c8c58", "#e08b22", "#7a4fa3", "#0f8f96", "#c24f7e", "#6c7b1f", "#8e5a39", "#c9a114", "#43577a", "#4ea0d3"] },
+  night: { water: "#0a1018", land: "#131b26", prov: "#202c3b", ink: "#ece8df", muted: "#8a94a3", halo: "#131b26", neutral: "#4a5566",
+    br: ["#ff6b57", "#5aa2ff", "#4fd18b", "#ffb547", "#b58cff", "#3fd6d6", "#ff7eb6", "#c6d65a", "#e0a07a", "#ffe066", "#8fa8d6", "#9be0ff"] },
+  delft: { water: "#e9edf5", land: "#fdfdfb", prov: "#d6dcea", ink: "#16306b", muted: "#5b6c96", halo: "#fdfdfb", neutral: "#b7c2dc",
+    br: ["#173a8a", "#4f78c9", "#0b2460", "#7b9ad8", "#2c51a4", "#98b2e3", "#1e449a", "#6286cf", "#123070", "#a9bfe8", "#3a60b5", "#86a4dd"] },
+};
+const MODEHINT = {
+  car: "Motorways down to local through-roads, with car ferries.",
+  bike: "The national fietsknooppunten network: about 12,300 numbered cycle junctions, plus bike ferries.",
+};
+
+/* =========================================================== state */
+const S = {
+  mode: "car", kind: "one", dest: null, cities: [], cityPreset: "biggest", nBig: 12,
+  travelers: [], travPreset: "g4", objective: "fair", route: "time", weight: "area",
+  branches: 7, style: "paper", labels: true, chrome: true,
+};
+let NLD = null;            // shared: land, places
+const GRAPHS = {};         // per mode
+let G = null;              // active graph
+let R = null;              // active result
+let view = { cx: 0, cy: 0, z: 1 };
+let animating = false;
+
+/* =========================================================== loading */
+async function fetchBytes(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(url + " returned " + res.status);
+  let buf;
+  if (url.endsWith(".txt")) { // base64 of the gzip bytes (artifact hosting serves text, not binaries)
+    const b64 = (await res.text()).replace(/\s+/g, "");
+    buf = Uint8Array.from(atob(b64), ch => ch.charCodeAt(0));
+  } else buf = new Uint8Array(await res.arrayBuffer());
+  if (buf[0] === 0x1f && buf[1] === 0x8b) {
+    const stream = new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"));
+    buf = new Uint8Array(await new Response(stream).arrayBuffer());
+  }
+  return buf;
+}
+async function loadShared() {
+  const b = await fetchBytes("data/nl.txt");
+  NLD = JSON.parse(new TextDecoder().decode(b));
+  NLD.Wu = NLD.W / NLD.Q; NLD.Hu = NLD.H / NLD.Q;
+  NLD.towns = NLD.places.filter(p => p.t !== "h");
+  // place grid for name lookups
+  NLD.pgrid = new Map(); const PC = 2000;
+  NLD.places.forEach((p, i) => { const k = ((p.x / PC) | 0) * 4096 + ((p.y / PC) | 0); if (!NLD.pgrid.has(k)) NLD.pgrid.set(k, []); NLD.pgrid.get(k).push(i); });
+  NLD.PC = PC;
+  const byName = new Map();
+  for (const p of NLD.towns.slice().sort((a, b) => b.p - a.p)) { const k = p.n.toLowerCase(); if (!byName.has(k)) byName.set(k, p); }
+  NLD.byName = byName;
+  const dl = document.getElementById("placelist");
+  dl.innerHTML = [...byName.values()].sort((a, b) => b.p - a.p).map(p => `<option value="${p.n.replace(/"/g, "&quot;")}">`).join("");
+}
+const TA = { uint16: Uint16Array, int16: Int16Array, uint8: Uint8Array, uint32: Uint32Array, float32: Float32Array, int32: Int32Array };
+async function loadGraph(mode) {
+  if (GRAPHS[mode]) return GRAPHS[mode];
+  const bytes = await fetchBytes(`data/${mode}.txt`);
+  const buf = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+  const n = new DataView(buf).getUint32(0, true);
+  const h = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 4, n)));
+  let base = 4 + n; while (base % 8) base++;
+  const g = { mode, NJ: h.NJ, NL: h.NL, names: h.names, placeJ: Int32Array.from(h.placeJ) };
+  for (const a of h.arrays) g[a.name] = new TA[a.type](buf, base + a.offset, a.length);
+  g.JX = Float32Array.from(g.jx); g.JY = Float32Array.from(g.jy);
+  // CSR adjacency, forward (out) and reverse (in)
+  const NJ = g.NJ, NL = g.NL, dOut = new Int32Array(NJ + 1), dIn = new Int32Array(NJ + 1);
+  for (let l = 0; l < NL; l++) { const u = g.lu[l], v = g.lv[l]; dOut[u + 1]++; dIn[v + 1]++; if (!(g.lf[l] & 1)) { dOut[v + 1]++; dIn[u + 1]++; } }
+  for (let i = 0; i < NJ; i++) { dOut[i + 1] += dOut[i]; dIn[i + 1] += dIn[i]; }
+  const oTo = new Int32Array(dOut[NJ]), oL = new Int32Array(dOut[NJ]), iTo = new Int32Array(dIn[NJ]), iL = new Int32Array(dIn[NJ]);
+  const fo = dOut.slice(0, NJ), fi = dIn.slice(0, NJ);
+  for (let l = 0; l < NL; l++) {
+    const u = g.lu[l], v = g.lv[l];
+    oTo[fo[u]] = v; oL[fo[u]++] = l; iTo[fi[v]] = u; iL[fi[v]++] = l;
+    if (!(g.lf[l] & 1)) { oTo[fo[v]] = u; oL[fo[v]++] = l; iTo[fi[u]] = v; iL[fi[u]++] = l; }
+  }
+  Object.assign(g, { oPtr: dOut, oTo, oL, iPtr: dIn, iTo, iL });
+  // junction grid
+  const C = 2000; g.C = C; g.grid = new Map();
+  for (let j = 0; j < NJ; j++) { const k = ((g.JX[j] / C) | 0) * 4096 + ((g.JY[j] / C) | 0); let a = g.grid.get(k); if (!a) g.grid.set(k, a = []); a.push(j); }
+  g.distCache = new Map();
+  GRAPHS[mode] = g;
+  return g;
+}
+
+/* =========================================================== geometry helpers */
+function nearestJ(x, y) {
+  const C = G.C, cx = (x / C) | 0, cy = (y / C) | 0;
+  let best = -1, bd = Infinity;
+  for (let r = 0; r < 40; r++) {
+    for (let i = cx - r; i <= cx + r; i++) for (let j = cy - r; j <= cy + r; j++) {
+      if (Math.max(Math.abs(i - cx), Math.abs(j - cy)) !== r) continue;
+      const a = G.grid.get(i * 4096 + j); if (!a) continue;
+      for (const k of a) { const d = (G.JX[k] - x) ** 2 + (G.JY[k] - y) ** 2; if (d < bd) { bd = d; best = k; } }
+    }
+    if (best >= 0 && Math.sqrt(bd) < r * C) break;
+  }
+  return best;
+}
+function placeNear(x, y, maxU = 1800) { // pick a recognisable nearby place name (units of 5 m)
+  const PC = NLD.PC, cx = (x / PC) | 0, cy = (y / PC) | 0, rr = Math.ceil(maxU / PC);
+  let best = null, bs = -1, near = null, nd = Infinity;
+  for (let i = cx - rr; i <= cx + rr; i++) for (let j = cy - rr; j <= cy + rr; j++) {
+    const a = NLD.pgrid.get(i * 4096 + j); if (!a) continue;
+    for (const k of a) {
+      const p = NLD.places[k], d = Math.hypot(p.x - x, p.y - y); if (d > maxU) continue;
+      const sc = p.p / (d + 250) ** 2; if (sc > bs) { bs = sc; best = p; }
+      if (d < nd) { nd = d; near = p; }
+    }
+  }
+  return best || near || NLD.places.reduce((b, p) => (Math.hypot(p.x - x, p.y - y) < Math.hypot(b.x - x, b.y - y) ? p : b));
+}
+function fmtTime(sec) {
+  const m = Math.round(sec / 60); if (m < 60) return m + " min";
+  const h = Math.floor(m / 60), mm = m % 60; return `${h} h ${String(mm).padStart(2, "0")} min`;
+}
+function fmtClock(sec) { const m = Math.round(sec / 60); return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`; }
+function fmtKm(m) { return m < 10000 ? (m / 1000).toFixed(1) + " km" : Math.round(m / 1000) + " km"; }
+function slug(s) { return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+function pt(p, name) { return { x: p.x, y: p.y, name: name || p.n }; }
+function place(name) { return NLD.byName.get(name.toLowerCase()); }
+
+/* =========================================================== routing */
+function dijkstra(srcs, rev, cost) {
+  const N = G.NJ, dist = new Float64Array(N).fill(Infinity), par = new Int32Array(N).fill(-1), parL = new Int32Array(N).fill(-1);
+  const lab = new Int16Array(N).fill(-1), order = new Int32Array(N), done = new Uint8Array(N);
+  const ptr = rev ? G.iPtr : G.oPtr, to = rev ? G.iTo : G.oTo, LL = rev ? G.iL : G.oL;
+  let cap = 1 << 16, hk = new Float64Array(cap), hv = new Int32Array(cap), hn = 0, no = 0;
+  const push = (k, v) => {
+    if (hn === cap) { cap *= 2; const a = new Float64Array(cap); a.set(hk); hk = a; const b = new Int32Array(cap); b.set(hv); hv = b; }
+    let i = hn++;
+    while (i > 0) { const p = (i - 1) >> 1; if (hk[p] <= k) break; hk[i] = hk[p]; hv[i] = hv[p]; i = p; }
+    hk[i] = k; hv[i] = v;
+  };
+  const pop = () => {
+    const top = hv[0], last = --hn, k = hk[last], v = hv[last];
+    let i = 0;
+    while (true) {
+      let c = 2 * i + 1; if (c >= hn) break;
+      if (c + 1 < hn && hk[c + 1] < hk[c]) c++;
+      if (hk[c] >= k) break;
+      hk[i] = hk[c]; hv[i] = hv[c]; i = c;
+    }
+    hk[i] = k; hv[i] = v; return top;
+  };
+  srcs.forEach((s, i) => { if (s >= 0 && dist[s] > 0) { dist[s] = 0; lab[s] = i; push(0, s); } });
+  while (hn) {
+    const u = pop(); if (done[u]) continue; done[u] = 1; order[no++] = u;
+    const du = dist[u];
+    for (let k = ptr[u], e = ptr[u + 1]; k < e; k++) {
+      const v = to[k], l = LL[k], nd = du + cost[l];
+      if (nd < dist[v]) { dist[v] = nd; par[v] = u; parL[v] = l; lab[v] = lab[u]; push(nd, v); }
+    }
+  }
+  return { dist, par, parL, lab, order: order.subarray(0, no) };
+}
+function costArr() { return S.route === "dist" ? G.lk : G.lt; }
+function distFrom(j) { // forward, from a traveller
+  const key = j + "|" + S.route;
+  if (!G.distCache.has(key)) { if (G.distCache.size > 24) G.distCache.clear(); G.distCache.set(key, dijkstra([j], false, costArr()).dist); }
+  return G.distCache.get(key);
+}
+
+function compute() {
+  const cost = costArr(), N = G.NJ;
+  let srcs, spot = -1, meet = null;
+  if (S.kind === "one") {
+    if (!S.dest) return null;
+    srcs = [nearestJ(S.dest.x, S.dest.y)];
+  } else if (S.kind === "rivals") {
+    if (!S.cities.length) return { empty: "Add a city by clicking the map, or pick a preset." };
+    srcs = S.cities.map(c => nearestJ(c.x, c.y));
+  } else {
+    if (S.travelers.length < 2) return { empty: "Add at least two travellers by clicking the map, or pick a preset." };
+    const tj = S.travelers.map(t => nearestJ(t.x, t.y));
+    const ds = tj.map(distFrom), fair = S.objective === "fair";
+    let bv = Infinity;
+    for (let j = 0; j < N; j++) {
+      let s = 0, m = 0;
+      for (const d of ds) { const v = d[j]; s += v; if (v > m) m = v; }
+      const sc = fair ? m + s * 1e-4 : s + m * 1e-4;
+      if (sc < bv) { bv = sc; spot = j; }
+    }
+    srcs = [spot]; meet = { tj };
+  }
+  const r = dijkstra(srcs, true, cost);
+  const { dist, par, parL, lab, order } = r;
+  const no = order.length;
+  // time & km along the tree
+  const T = new Float32Array(N), K = new Float32Array(N);
+  for (let i = 0; i < no; i++) { const v = order[i], p = par[v]; if (p >= 0) { const l = parL[v]; T[v] = T[p] + G.lt[l]; K[v] = K[p] + G.lk[l]; } }
+  const wsrc = S.weight === "pop" ? G.jpop : G.jarea;
+  const own = new Float64Array(N), W = new Float64Array(N);
+  for (let i = 0; i < no; i++) { const v = order[i]; own[v] = W[v] = wsrc[v]; }
+  for (let i = no - 1; i >= 0; i--) { const v = order[i], p = par[v]; if (p >= 0) W[p] += W[v]; }
+  let Wtot = 0; for (let i = 0; i < no; i++) Wtot += own[order[i]];
+  const res = { ...r, T, K, W, own, Wtot, srcs, kind: S.kind, col: new Int16Array(N).fill(-1), info: [] };
+
+  if (S.kind === "rivals") {
+    const nc = srcs.length, share = new Float64Array(nc);
+    for (let i = 0; i < no; i++) { const v = order[i]; share[lab[v]] += own[v]; }
+    // territory adjacency → greedy colouring so neighbours differ
+    const adj = Array.from({ length: nc }, () => new Set());
+    for (let l = 0; l < G.NL; l++) { const a = lab[G.lu[l]], b = lab[G.lv[l]]; if (a >= 0 && b >= 0 && a !== b) { adj[a].add(b); adj[b].add(a); } }
+    const ordc = [...Array(nc).keys()].sort((a, b) => share[b] - share[a]);
+    const cc = new Int16Array(nc).fill(-1), P = STYLES[S.style].br.length, uses = new Array(P).fill(0);
+    for (const c of ordc) { // the least-used colour that no neighbour has yet
+      const used = new Set([...adj[c]].map(n => cc[n]));
+      let k = -1; for (let q = 0; q < P; q++) if (!used.has(q) && (k < 0 || uses[q] < uses[k])) k = q;
+      if (k < 0) k = c % P; cc[c] = k; uses[k]++;
+    }
+    for (let i = 0; i < no; i++) { const v = order[i]; res.col[v] = cc[lab[v]]; }
+    res.info = ordc.map(c => ({ name: S.cities[c].name, color: cc[c], share: share[c] / Wtot, j: srcs[c] }));
+    res.Wref = Math.max(...srcs.map(s => W[s]));
+  } else {
+    const root = srcs[0];
+    res.Wref = W[root];
+    const head = new Int32Array(N).fill(-1), next = new Int32Array(N).fill(-1), heavy = new Int32Array(N).fill(-1);
+    for (let i = 1; i < no; i++) { const v = order[i], p = par[v]; next[v] = head[p]; head[p] = v; if (heavy[p] < 0 || W[v] > W[heavy[p]]) heavy[p] = v; }
+    res.heavy = heavy;
+    if (S.kind === "one") {
+      const basinOf = new Int16Array(N).fill(-1), basins = [root]; basinOf[root] = 0;
+      const cand = [];
+      const walk = r0 => { for (let v = r0; v >= 0; v = heavy[v]) for (let c = head[v]; c >= 0; c = next[c]) if (c !== heavy[v] && W[c] > 0.004 * Wtot) cand.push(c); };
+      walk(root);
+      while (basins.length < S.branches && cand.length) {
+        let bi = 0; for (let i = 1; i < cand.length; i++) if (W[cand[i]] > W[cand[bi]]) bi = i;
+        const c = cand[bi]; cand[bi] = cand[cand.length - 1]; cand.pop();
+        basinOf[c] = basins.length; basins.push(c); walk(c);
+      }
+      const col = res.col;
+      for (let i = 0; i < no; i++) { const v = order[i]; col[v] = basinOf[v] >= 0 ? basinOf[v] : col[par[v]]; }
+      // describe each branch: its main road and the biggest place it serves
+      const nb = basins.length, bw = new Float64Array(nb);
+      for (let i = 0; i < no; i++) { const v = order[i]; bw[col[v]] += own[v]; }
+      const big = new Array(nb).fill(null);
+      const rx = G.JX[root], ry = G.JY[root];
+      NLD.places.forEach((p, k) => { const j = G.placeJ[k], b = col[j]; if (b >= 0 && p.t !== "h" && Math.hypot(p.x - rx, p.y - ry) > 1600 && (!big[b] || p.p > big[b].p)) big[b] = p; });
+      res.info = basins.map((b0, b) => {
+        const tally = new Map(); let ref = 0, run = 0;
+        for (let v = b0, steps = 0; v >= 0 && steps < 4000 && run < 35000; steps++) {
+          const h = heavy[v]; if (h < 0 || col[h] !== b) break;
+          run += G.lk[parL[h]];
+          const l = parL[h], nm = G.names[G.ln[l]];
+          if (nm) tally.set(nm, (tally.get(nm) || 0) + G.lk[l] * (G.mode === "car" && /^[AN]\d/.test(nm) ? 3 : 1));
+          if (!ref && G.jref && G.jref[h]) ref = G.jref[h];
+          v = h;
+        }
+        let road = "", bs = 0; for (const [k, s] of tally) if (s > bs) { bs = s; road = k; }
+        return { color: b, share: bw[b] / Wtot, road: G.mode === "car" ? road : "", ref, from: big[b] ? big[b].n : "", j: b0 };
+      });
+    } else {
+      res.meet = meet; res.spot = spot;
+      res.info = S.travelers.map((t, i) => ({ name: t.name, color: i % STYLES[S.style].br.length, sec: dist[meet.tj[i]], T: T[meet.tj[i]], K: K[meet.tj[i]], j: meet.tj[i] }));
+    }
+  }
+  // weighted stats
+  let ws = 0, half = -1, acc = 0, far = order[no - 1];
+  for (let i = 0; i < no; i++) { const v = order[i]; ws += own[v] * dist[v]; acc += own[v]; if (half < 0 && acc >= Wtot / 2) half = dist[v]; }
+  res.mean = ws / Wtot; res.median = half; res.far = far;
+  return res;
+}
+
+/* =========================================================== drawing */
+const cv = document.getElementById("map"), ov = document.getElementById("over"), posterEl = document.getElementById("poster");
+const ctx = cv.getContext("2d"), octx = ov.getContext("2d");
+let CW = 800, CH = 940, DPR = 1;
+const mapLayer = document.createElement("canvas"), mctx = mapLayer.getContext("2d");
+let layerView = null;
+
+function sizeCanvas() {
+  if (!NLD) return;
+  const stage = posterEl.parentElement;
+  const availW = stage.clientWidth, availH = Math.max(420, window.innerHeight - 32);
+  const asp = NLD.Wu / NLD.Hu;
+  let w = availW, h = w / asp;
+  if (window.innerWidth > 920 && h > availH) { h = availH; w = h * asp; }
+  CW = Math.floor(w); CH = Math.floor(w / asp); DPR = Math.min(2.5, window.devicePixelRatio || 1);
+  for (const c of [cv, ov]) { c.width = Math.round(CW * DPR); c.height = Math.round(CH * DPR); c.style.width = CW + "px"; c.style.height = CH + "px"; }
+  mapLayer.width = cv.width; mapLayer.height = cv.height;
+}
+function vt(W, H, v = view) { // data units → px
+  const s = (W / NLD.Wu) * v.z;
+  return { s, ox: W / 2 - v.cx * s, oy: H / 2 + v.cy * s };
+}
+
+function drawLand(c, W, H, t, st) {
+  c.fillStyle = st.water; c.fillRect(0, 0, W, H);
+  c.beginPath();
+  for (const poly of NLD.land) for (const ring of poly) {
+    for (let i = 0; i < ring.length; i += 2) { const x = ring[i] * t.s + t.ox, y = t.oy - ring[i + 1] * t.s; i ? c.lineTo(x, y) : c.moveTo(x, y); }
+    c.closePath();
+  }
+  c.fillStyle = st.land; c.fill("evenodd");
+  c.beginPath();
+  for (const ln of NLD.prov) for (let i = 0; i < ln.length; i += 2) { const x = ln[i] * t.s + t.ox, y = t.oy - ln[i + 1] * t.s; i ? c.lineTo(x, y) : c.moveTo(x, y); }
+  c.strokeStyle = st.prov; c.lineWidth = Math.max(0.6, W / 1400); c.setLineDash([W / 300, W / 400]); c.stroke(); c.setLineDash([]);
+}
+function edgeTo(c, v, t) {
+  const l = R.parL[v], a = G.lu[l], b = G.lv[l], s = G.gptr[l], e = G.gptr[l + 1];
+  c.moveTo(G.JX[a] * t.s + t.ox, t.oy - G.JY[a] * t.s);
+  for (let i = s; i < e; i++) c.lineTo(G.gx[i] * t.s + t.ox, t.oy - G.gy[i] * t.s);
+  c.lineTo(G.JX[b] * t.s + t.ox, t.oy - G.JY[b] * t.s);
+}
+function widthFn(W, z) {
+  const k = W / 1000, zz = Math.pow(z, 0.35), bike = G.mode === "bike";
+  const maxw = (bike ? 15 : 14) * k * zz, minw = (bike ? 0.45 : 0.32) * k * zz;
+  return w => minw + (maxw - minw) * Math.sqrt(w / R.Wref);
+}
+function drawTree(c, W, H, t, st, upto = Infinity) {
+  if (!R || R.empty) return;
+  const wf = widthFn(W, view.z), groups = new Map(), N = R.order.length;
+  const neutral = R.kind === "meet";
+  const mx = W * 0.15, my = H * 0.15;
+  for (let i = 1; i < N; i++) {
+    const v = R.order[i]; if (R.par[v] < 0) continue;
+    if (R.dist[v] > upto) break;
+    const x = G.JX[v] * t.s + t.ox, y = t.oy - G.JY[v] * t.s;
+    if (x < -mx || x > W + mx || y < -my || y > H + my) { const p = R.par[v], x2 = G.JX[p] * t.s + t.ox, y2 = t.oy - G.JY[p] * t.s; if (x2 < -mx || x2 > W + mx || y2 < -my || y2 > H + my) continue; }
+    const w = wf(R.W[v]), bucket = Math.min(400, Math.round(w * 6));
+    const ferry = (G.lf[R.parL[v]] & 2) ? 1 : 0;
+    const key = (bucket * 32 + (neutral ? 31 : R.col[v])) * 2 + ferry;
+    let a = groups.get(key); if (!a) groups.set(key, a = []); a.push(v);
+  }
+  const keys = [...groups.keys()].sort((a, b) => a - b);
+  c.lineCap = "round"; c.lineJoin = "round";
+  for (const key of keys) {
+    const ferry = key & 1, ci = (key >> 1) % 32, bucket = Math.floor((key >> 1) / 32);
+    c.beginPath();
+    for (const v of groups.get(key)) edgeTo(c, v, t);
+    c.lineWidth = Math.max(0.25, bucket / 6);
+    c.strokeStyle = ci === 31 ? st.neutral : st.br[ci % st.br.length];
+    c.globalAlpha = ci === 31 ? 0.55 : 1;
+    if (ferry) c.setLineDash([c.lineWidth * 2 + W / 400, c.lineWidth * 1.5 + W / 300]);
+    c.stroke();
+    if (ferry) c.setLineDash([]);
+  }
+  c.globalAlpha = 1;
+  if (R.kind === "meet") drawMeetPaths(c, W, t, st);
+}
+function pathXY(v, t) { // polyline from v to root along the tree, in px
+  const pts = [];
+  while (v >= 0 && R.par[v] >= 0) {
+    const l = R.parL[v], a = G.lu[l], s = G.gptr[l], e = G.gptr[l + 1], p = R.par[v];
+    const seg = [[G.JX[a], G.JY[a]]]; for (let i = s; i < e; i++) seg.push([G.gx[i], G.gy[i]]); seg.push([G.JX[G.lv[l]], G.JY[G.lv[l]]]);
+    if (a !== v) seg.reverse();
+    for (const q of seg) pts.push([q[0] * t.s + t.ox, t.oy - q[1] * t.s]);
+    v = p;
+  }
+  return pts;
+}
+function strokePts(c, pts) { c.beginPath(); pts.forEach((p, i) => i ? c.lineTo(p[0], p[1]) : c.moveTo(p[0], p[1])); c.stroke(); }
+function drawMeetPaths(c, W, t, st) {
+  const k = W / 1000;
+  R.info.forEach(tr => {
+    const pts = pathXY(tr.j, t);
+    c.strokeStyle = st.halo; c.lineWidth = 8 * k; strokePts(c, pts);
+    c.strokeStyle = st.br[tr.color]; c.lineWidth = 4.6 * k; strokePts(c, pts);
+  });
+}
+
+function drawMarkersAndLabels(c, W, H, t, st, avoid) {
+  const k = W / 1000, placed = avoid.slice();
+  const hit = r => placed.some(q => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1]);
+  const fam = getComputedStyle(document.documentElement).getPropertyValue("--font-body");
+  const label = (txt, x, y, size, weight, color, force, dx = 6 * k) => {
+    setFont(c, weight, size, fam);
+    const w = c.measureText(txt).width;
+    const fits = r => !(hit(r) || r[0] < 4 || r[2] > W - 4 || r[1] < 4 || r[3] > H - 4);
+    let r = [x + dx - 2, y - size * 0.6, x + dx + w + 2, y + size * 0.55];
+    if (!fits(r)) { // try the left side of the marker
+      const rl = [x - dx - w - 2, r[1], x - dx + 2, r[3]];
+      if (fits(rl) || (force && rl[0] >= 4 && r[2] > W - 4)) { r = rl; dx = -dx - w; }
+      else if (!force) return false;
+    }
+    c.textBaseline = "middle"; c.lineJoin = "round";
+    c.strokeStyle = st.halo; c.lineWidth = size * 0.32; c.strokeText(txt, x + dx, y);
+    c.fillStyle = color; c.fillText(txt, x + dx, y); placed.push(r); return true;
+  };
+  const dot = (x, y, r, fill, ring) => { c.beginPath(); c.arc(x, y, r, 0, 7); c.fillStyle = fill; c.fill(); if (ring) { c.lineWidth = r * 0.45; c.strokeStyle = ring; c.stroke(); } };
+  const P = j => [G.JX[j] * t.s + t.ox, t.oy - G.JY[j] * t.s];
+  const PP = p => [p.x * t.s + t.ox, t.oy - p.y * t.s];
+  // special markers first so they win label space
+  if (R && !R.empty) {
+    if (R.kind === "one") {
+      const [x, y] = P(R.srcs[0]);
+      dot(x, y, 7 * k, st.ink, st.halo); dot(x, y, 2.6 * k, st.halo);
+      label(S.dest.name, x, y, 15 * k, 750, st.ink, true, 11 * k);
+    } else if (R.kind === "rivals") {
+      R.info.forEach(ci => { const [x, y] = P(ci.j); dot(x, y, 4.4 * k, st.br[ci.color], st.halo); });
+      R.info.forEach(ci => { const [x, y] = P(ci.j); label(ci.name, x, y, 12.5 * k, 700, st.ink, false, 7 * k); });
+    } else {
+      const [x, y] = P(R.spot);
+      R.info.forEach(tr => { const [a, b] = P(tr.j); dot(a, b, 5.5 * k, st.br[tr.color], st.halo); });
+      R.info.forEach(tr => { const [a, b] = P(tr.j); label(`${tr.name} ${S.route === "dist" ? fmtKm(tr.K) : fmtClock(tr.T)}`, a, b, 12 * k, 650, st.ink, true, 8 * k); });
+      c.save(); c.translate(x, y); c.rotate(Math.PI / 4); c.fillStyle = st.ink; c.strokeStyle = st.halo; c.lineWidth = 2.5 * k;
+      c.fillRect(-6.5 * k, -6.5 * k, 13 * k, 13 * k); c.strokeRect(-6.5 * k, -6.5 * k, 13 * k, 13 * k); c.restore();
+      label(R.spotName, x, y, 15 * k, 750, st.ink, true, 12 * k);
+    }
+  }
+  if (!S.labels) return;
+  const maxN = Math.round(26 * Math.pow(view.z, 0.9));
+  const taken = new Set(R && !R.empty ? (R.kind === "one" ? [S.dest.name] : R.kind === "meet" ? [...R.info.map(i => i.name), R.spotName] : R.info.map(i => i.name)) : []);
+  let n = 0;
+  for (const p of NLD.towns) { // sorted by population below
+    if (taken.has(p.n)) continue;
+    if (n >= maxN) break;
+    const [x, y] = PP(p); if (x < 0 || x > W || y < 0 || y > H) continue;
+    const size = (p.p >= 100000 ? 12 : p.p >= 30000 ? 11 : 10) * k;
+    if (label(p.n, x, y, size, p.p >= 100000 ? 600 : 500, st.muted, false, 5 * k)) { dot(x, y, 1.9 * k, st.muted); n++; }
+  }
+}
+
+/* poster chrome: title over the North Sea, legend over the empty Belgian corner */
+function chromeBoxes(W, H) {
+  return { title: [0, 0, W * 0.335, H * 0.33], legend: [0, H * 0.835, W * 0.62, H], credit: [W * 0.66, H * 0.93, W, H] };
+}
+function wrap(c, txt, maxW) {
+  const words = txt.split(" "), lines = []; let cur = "";
+  for (const w of words) { const t = cur ? cur + " " + w : w; if (c.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; }
+  if (cur) lines.push(cur); return lines;
+}
+function posterText() {
+  const car = G.mode === "car", by = S.route === "dist" ? "shortest distance" : "fastest time";
+  if (!R || R.empty) return { eyebrow: car ? "Alle wegen leiden naar" : "Alle fietsroutes leiden naar", big: "…", sub: R && R.empty ? R.empty : "" };
+  if (R.kind === "one") return {
+    eyebrow: car ? "Alle wegen leiden naar" : "Alle fietsroutes leiden naar", big: S.dest.name,
+    sub: car ? `Every road junction in the Netherlands, routed to ${S.dest.name} by ${by}.` : `Every fietsknooppunt in the Netherlands, routed to ${S.dest.name} by ${by}.`,
+  };
+  if (R.kind === "rivals") return {
+    eyebrow: car ? "Alle wegen leiden naar" : "Alle fietsroutes leiden naar", big: `${S.cities.length} steden`,
+    sub: `Every ${car ? "junction" : "cycle junction"} drains to whichever of these ${S.cities.length} cities it reaches first, by ${by}.`,
+  };
+  return {
+    eyebrow: S.objective === "fair" ? "Eerlijk afspreken in" : "Samen afspreken in", big: R.spotName,
+    sub: S.objective === "fair" ? `The spot that keeps the longest ${car ? "drive" : "ride"} as short as possible for ${S.travelers.length} travellers.` : `The spot with the least ${car ? "driving" : "cycling"} in total for ${S.travelers.length} travellers.`,
+  };
+}
+function setFont(c, weight, size, family, stretch) {
+  c.font = `${weight} ${stretch ? stretch + " " : ""}${size}px ${family}`;
+  if ("fontStretch" in c) c.fontStretch = stretch || "normal";
+}
+function drawChrome(c, W, H, st, clock) {
+  const k = W / 1000, css = getComputedStyle(document.documentElement);
+  const fD = css.getPropertyValue("--font-display"), fM = css.getPropertyValue("--font-data");
+  const pt_ = posterText(), x0 = 40 * k; let y = 52 * k;
+  if (S.chrome) {
+    if (view.z > 1.05) {
+      const b = chromeBoxes(W, H); c.fillStyle = st.water; c.globalAlpha = 0.88;
+      c.fillRect(b.title[0], b.title[1], b.title[2] - 10 * k, (clock != null ? 0.3 : 0.22) * H);
+      if (R && !R.empty && R.info.length) c.fillRect(b.legend[0], b.legend[1] - 6 * k, b.legend[2], b.legend[3]);
+      c.globalAlpha = 1;
+    }
+    c.textBaseline = "alphabetic"; c.fillStyle = st.ink;
+    setFont(c, 600, 13 * k, fM); if ("letterSpacing" in c) c.letterSpacing = `${1.6 * k}px`;
+    c.fillText(pt_.eyebrow.toUpperCase(), x0, y);
+    if ("letterSpacing" in c) c.letterSpacing = "0px";
+    let size = 62 * k; setFont(c, 850, size, fD, "expanded");
+    const maxW = W * 0.29; const tw = c.measureText(pt_.big).width; if (tw > maxW) { size *= maxW / tw; setFont(c, 850, size, fD, "expanded"); }
+    y += size * 1.02; c.fillText(pt_.big, x0 - size * 0.04, y);
+    c.fillStyle = st.accentBar; c.fillRect(x0, y + 12 * k, 46 * k, 4 * k);
+    setFont(c, 400, 13.5 * k, fD); c.fillStyle = st.muted; y += 40 * k;
+    for (const ln of wrap(c, pt_.sub, W * 0.26)) { c.fillText(ln, x0, y); y += 18 * k; }
+    if (clock != null) {
+      y += 12 * k; setFont(c, 600, 26 * k, fM); c.fillStyle = st.ink;
+      c.fillText((S.route === "dist" ? fmtKm(clock) : fmtClock(clock)), x0, y + 8 * k);
+      setFont(c, 400, 12 * k, fM); c.fillStyle = st.muted; c.fillText(S.route === "dist" ? "along the road" : "from the destination", x0, y + 28 * k);
+    }
+    // legend
+    if (R && !R.empty && R.info.length) {
+      const L = R.kind === "rivals" ? R.info.slice(0, 12) : R.kind === "one" ? R.info.slice().sort((a, b) => b.share - a.share) : R.info;
+      const rows = Math.min(6, Math.ceil(L.length / 2)), cols = Math.ceil(L.length / rows), colW = W * 0.27, rowH = 21 * k;
+      const ly = H - 34 * k - rows * rowH;
+      setFont(c, 600, 10.5 * k, fM); c.fillStyle = st.muted; if ("letterSpacing" in c) c.letterSpacing = `${1.2 * k}px`;
+      const what = R.kind === "meet" ? "TRAVELLERS · TRIP" : R.kind === "rivals" ? `CITIES · SHARE OF ${S.weight === "pop" ? "PEOPLE" : "LAND"}` : `BRANCHES · SHARE OF ${S.weight === "pop" ? "PEOPLE" : "LAND"}`;
+      c.fillText(what, x0, ly - 10 * k); if ("letterSpacing" in c) c.letterSpacing = "0px";
+      L.forEach((it, i) => {
+        const cx = x0 + Math.floor(i / rows) * colW, cy = ly + (i % rows) * rowH + rowH / 2;
+        c.strokeStyle = st.br[it.color % st.br.length]; c.lineWidth = 5 * k; c.lineCap = "round";
+        c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx + 18 * k, cy); c.stroke();
+        let txt, val;
+        if (R.kind === "meet") { txt = it.name; val = S.route === "dist" ? fmtKm(it.K) : fmtClock(it.T); }
+        else if (R.kind === "rivals") { txt = it.name; val = Math.round(it.share * 100) + "%"; }
+        else {
+          const via = G.mode === "car" ? (it.road && it.road !== it.from ? it.road + " · " : "") : (it.ref ? "knp " + it.ref + " · " : "");
+          txt = via + (it.from ? "from " + it.from : "nearby");
+          val = (it.share < 0.01 ? "<1" : Math.round(it.share * 100)) + "%";
+        }
+        setFont(c, 500, 12.5 * k, fD); c.fillStyle = st.ink; c.textBaseline = "middle";
+        const vw = (setFont(c, 500, 11.5 * k, fM), c.measureText(val).width);
+        setFont(c, 500, 12.5 * k, fD);
+        let t = txt; const room = colW - 30 * k - vw - 16 * k;
+        while (c.measureText(t).width > room && t.length > 3) t = t.slice(0, -2);
+        if (t !== txt) t = t.trimEnd() + "…";
+        c.fillText(t, cx + 26 * k, cy);
+        setFont(c, 500, 11.5 * k, fM); c.fillStyle = st.muted; c.fillText(val, cx + colW - 16 * k - vw, cy);
+        c.textBaseline = "alphabetic";
+      });
+    }
+  }
+  // scale bar + credit (always, it is part of the map)
+  const t = vt(W, H), pxPerKm = 1000 / NLD.Q * t.s;
+  const km = [0.5, 1, 2, 5, 10, 25, 50].filter(v => v * pxPerKm <= W * 0.16).pop() || 0.5, len = km * pxPerKm;
+  const bx = W - 40 * k - len, by = H - 40 * k;
+  c.strokeStyle = st.ink; c.lineWidth = 1.4 * k; c.lineCap = "butt";
+  c.beginPath(); c.moveTo(bx, by - 5 * k); c.lineTo(bx, by); c.lineTo(bx + len, by); c.lineTo(bx + len, by - 5 * k); c.stroke();
+  setFont(c, 500, 10.5 * k, fM); c.fillStyle = st.ink; c.textBaseline = "alphabetic";
+  c.fillText(km + " km", bx, by - 9 * k);
+  c.fillStyle = st.muted; setFont(c, 400, 9.5 * k, fM);
+  const cr = "© OpenStreetMap contributors · CBS";
+  c.fillText(cr, W - 40 * k - c.measureText(cr).width, H - 22 * k);
+}
+
+function styleNow() { const st = { ...STYLES[S.style] }; st.accentBar = S.style === "delft" ? st.ink : G && G.mode === "bike" ? "#b4412d" : "#1f4ea3"; if (S.style === "night") st.accentBar = G && G.mode === "bike" ? "#ff8a6e" : "#7ea6ff"; return st; }
+
+function renderLayer(c, W, H, upto) {
+  const st = styleNow(), t = vt(W, H);
+  drawLand(c, W, H, t, st);
+  drawTree(c, W, H, t, st, upto);
+  const b = chromeBoxes(W, H), avoid = S.chrome ? [b.title, b.legend, b.credit] : [b.credit];
+  drawMarkersAndLabels(c, W, H, t, st, avoid);
+}
+function render() {
+  if (!G || !NLD) return;
+  const W = cv.width, H = cv.height, st = styleNow();
+  renderLayer(mctx, W, H);
+  layerView = { ...view };
+  ctx.drawImage(mapLayer, 0, 0);
+  drawChrome(ctx, W, H, st);
+  clearHover();
+}
+function quickFrame() { // during pan/zoom: reuse the last layer, transformed
+  if (!layerView) return;
+  const W = cv.width, H = cv.height, st = styleNow();
+  const a = vt(W, H, layerView), b = vt(W, H, view), r = b.s / a.s;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = st.water; ctx.fillRect(0, 0, W, H);
+  ctx.setTransform(r, 0, 0, r, b.ox - a.ox * r, b.oy - a.oy * r);
+  ctx.drawImage(mapLayer, 0, 0);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  drawChrome(ctx, W, H, st);
+}
+let renderTimer = 0;
+function scheduleRender(delay = 140) { clearTimeout(renderTimer); renderTimer = setTimeout(render, delay); }
+
+/* =========================================================== app flow */
+function recompute() {
+  if (!G || !NLD) return;
+  const t0 = performance.now();
+  R = compute();
+  if (R && R.kind === "meet") R.spotName = placeNear(G.JX[R.spot], G.JY[R.spot], 2400).n;
+  render(); updateStats(); updateHash();
+  console.log("[nl] compute+render", Math.round(performance.now() - t0), "ms");
+}
+function updateStats() {
+  const el = document.getElementById("stats");
+  if (!R || R.empty) { el.innerHTML = R && R.empty ? `<div class="hint">${R.empty}</div>` : ""; return; }
+  const d = S.route === "dist", f = v => d ? fmtKm(v) : fmtTime(v), who = S.weight === "pop" ? "people" : "land";
+  const rows = [];
+  if (R.kind === "meet") {
+    R.info.forEach(t => rows.push([t.name, `${fmtTime(t.T)} · ${fmtKm(t.K)}`]));
+    const tot = R.info.reduce((a, t) => a + t.T, 0), mx = Math.max(...R.info.map(t => t.T));
+    rows.push(["Longest trip", fmtTime(mx)], ["All trips together", fmtTime(tot)]);
+  } else {
+    const farP = placeNear(G.JX[R.far], G.JY[R.far], 3000);
+    rows.push([`Average trip (by ${who})`, f(R.mean)], [`Half the ${who} is within`, f(R.median)], ["Farthest junction", `${farP.n}, ${f(R.dist[R.far])}`]);
+    if (R.kind === "rivals") R.info.slice(0, 5).forEach(c => rows.push([c.name, Math.round(c.share * 100) + "% of " + who]));
+  }
+  el.innerHTML = rows.map(r => `<div class="stat"><span>${r[0]}</span><span>${r[1]}</span></div>`).join("");
+}
+function updateHash() {
+  if (S.kind !== "one" || !S.dest) return;
+  const h = `${S.mode}-${slug(S.dest.name)}`;
+  try { if (location.hash.slice(1) !== h) history.replaceState(null, "", "#" + h); } catch (e) { /* ignore */ }
+}
+function readHash() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  const m = /^(car|bike)-(.+)$/.exec(h); if (!m) return false;
+  const p = [...NLD.byName.values()].find(p => slug(p.n) === m[2]);
+  if (!p) return false;
+  S.mode = m[1]; S.dest = pt(p); return true;
+}
+
+const PRESETS = {
+  capitals: ["Groningen", "Leeuwarden", "Assen", "Zwolle", "Lelystad", "Arnhem", "Utrecht", "Haarlem", "Den Haag", "Middelburg", "'s-Hertogenbosch", "Maastricht"],
+  g4: ["Amsterdam", "Rotterdam", "Den Haag", "Utrecht"],
+  corners: ["Den Helder", "Delfzijl", "Vaals", "Cadzand"],
+  unis: ["Groningen", "Enschede", "Nijmegen", "Wageningen", "Maastricht", "Eindhoven", "Tilburg", "Delft"],
+};
+function biggest(n) {
+  const out = [];
+  for (const p of NLD.towns) { // already population-sorted
+    if (out.length >= n) break;
+    if (out.some(q => Math.hypot(q.x - p.x, q.y - p.y) < 1600)) continue; // skip suburbs of a city already in
+    out.push(pt(p));
+  }
+  return out;
+}
+function namesToPts(list) { return list.map(n => place(n)).filter(Boolean).map(p => pt(p)); }
+function setPressed(sel, attr, val) { document.querySelectorAll(sel).forEach(b => b.setAttribute("aria-pressed", String(b.dataset[attr] === val))); }
+function renderTags() {
+  const st = STYLES[S.style];
+  const mk = (list, id, remove) => {
+    const el = document.getElementById(id);
+    el.innerHTML = list.map((c, i) => `<span class="tag"><i style="background:${R && R.kind === S.kind && !R.empty && R.info ? (R.kind === "rivals" ? st.br[(R.info.find(x => x.name === c.name) || { color: i }).color % st.br.length] : st.br[i % st.br.length]) : st.br[i % st.br.length]}"></i>${c.name}<button data-i="${i}" aria-label="Remove ${c.name}">×</button></span>`).join("");
+    el.querySelectorAll("button").forEach(b => b.onclick = () => { list.splice(+b.dataset.i, 1); presetOff(); recompute(); renderTags(); });
+  };
+  mk(S.cities, "city-tags"); mk(S.travelers, "trav-tags");
+}
+function presetOff() { document.querySelectorAll(S.kind === "rivals" ? "#p-rivals .chip" : "#p-meet .chip").forEach(c => c.classList.remove("on")); }
+function showPanels() {
+  document.getElementById("p-one").hidden = S.kind !== "one";
+  document.getElementById("p-rivals").hidden = S.kind !== "rivals";
+  document.getElementById("p-meet").hidden = S.kind !== "meet";
+  document.getElementById("g-branches").hidden = S.kind !== "one";
+}
+
+async function setMode(m) {
+  S.mode = m; document.documentElement.dataset.mode = m;
+  setPressed("[data-mode]", "mode", m);
+  document.getElementById("mode-hint").textContent = MODEHINT[m];
+  document.getElementById("loading").hidden = false;
+  document.getElementById("loading").textContent = m === "bike" ? "Loading the cycle network…" : "Loading the road network…";
+  G = await loadGraph(m);
+  document.getElementById("loading").hidden = true;
+  recompute(); renderTags();
+}
+
+/* =========================================================== interaction */
+function evPos(e) { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * DPR, (e.clientY - r.top) * DPR]; }
+function toData(px, py) { const t = vt(cv.width, cv.height); return [(px - t.ox) / t.s, (t.oy - py) / t.s]; }
+function clickMap(px, py) {
+  if (!G || animating) return;
+  const [x, y] = toData(px, py), t = vt(cv.width, cv.height);
+  if (S.kind === "one") {
+    const j = nearestJ(x, y), p = placeNear(G.JX[j], G.JY[j]);
+    S.dest = { x: G.JX[j], y: G.JY[j], name: p.n };
+    document.getElementById("dest").value = p.n;
+  } else {
+    const list = S.kind === "rivals" ? S.cities : S.travelers;
+    const hitI = list.findIndex(c => Math.hypot(c.x * t.s + t.ox - px, t.oy - c.y * t.s - py) < 12 * DPR);
+    if (hitI >= 0) list.splice(hitI, 1);
+    else {
+      if (S.kind === "meet" && list.length >= 8) return;
+      const j = nearestJ(x, y), p = placeNear(G.JX[j], G.JY[j]);
+      list.push({ x: G.JX[j], y: G.JY[j], name: p.n });
+    }
+    presetOff();
+  }
+  recompute(); renderTags();
+}
+function zoomAt(px, py, f) {
+  const W = cv.width, H = cv.height, t = vt(W, H);
+  const xm = (px - t.ox) / t.s, ym = (t.oy - py) / t.s;
+  view.z = Math.min(40, Math.max(1, view.z * f));
+  const s2 = (W / NLD.Wu) * view.z;
+  view.cx = xm - (px - W / 2) / s2; view.cy = ym + (py - H / 2) / s2;
+  clampView(); quickFrame(); scheduleRender();
+}
+function clampView() {
+  if (view.z <= 1.0001) { view.z = 1; view.cx = NLD.Wu / 2; view.cy = NLD.Hu / 2; return; }
+  const hw = NLD.Wu / 2 / view.z, hh = NLD.Hu / 2 / view.z;
+  view.cx = Math.min(NLD.Wu - hw, Math.max(hw, view.cx)); view.cy = Math.min(NLD.Hu - hh, Math.max(hh, view.cy));
+}
+let drag = null;
+cv.addEventListener("pointerdown", e => { if (e.button !== 0) return; drag = { x: e.clientX, y: e.clientY, cx: view.cx, cy: view.cy, moved: false, type: e.pointerType }; if (e.pointerType === "mouse") cv.setPointerCapture(e.pointerId); });
+cv.addEventListener("pointermove", e => {
+  if (drag && drag.type === "mouse" && (e.buttons & 1)) {
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!drag.moved && Math.hypot(dx, dy) > 4 && view.z > 1) { drag.moved = true; cv.classList.add("grab"); clearHover(); }
+    if (drag.moved) { const s = (cv.width / NLD.Wu) * view.z / DPR; view.cx = drag.cx - dx / s; view.cy = drag.cy + dy / s; clampView(); quickFrame(); }
+    return;
+  }
+  if (e.pointerType === "mouse") hover(...evPos(e), e);
+});
+cv.addEventListener("pointerup", e => {
+  if (!drag) return;
+  const moved = drag.moved || Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 6;
+  cv.classList.remove("grab");
+  if (drag.moved) scheduleRender(0);
+  else if (!moved) clickMap(...evPos(e));
+  drag = null;
+});
+cv.addEventListener("pointerleave", () => { if (!drag) clearHover(); });
+cv.addEventListener("wheel", e => { e.preventDefault(); const [px, py] = evPos(e); zoomAt(px, py, Math.exp(-e.deltaY * 0.0022)); }, { passive: false });
+document.getElementById("zin").onclick = () => zoomAt(cv.width / 2, cv.height / 2, 1.6);
+document.getElementById("zout").onclick = () => zoomAt(cv.width / 2, cv.height / 2, 1 / 1.6);
+document.getElementById("zreset").onclick = () => { view.z = 1; clampView(); render(); };
+
+const tip = document.getElementById("tip");
+function clearHover() { octx.clearRect(0, 0, ov.width, ov.height); tip.hidden = true; }
+let hoverRaf = 0;
+function hover(px, py, e) {
+  if (!R || R.empty || animating) return;
+  cancelAnimationFrame(hoverRaf);
+  hoverRaf = requestAnimationFrame(() => {
+    const [x, y] = toData(px, py), j = nearestJ(x, y), t = vt(cv.width, cv.height);
+    const jx = G.JX[j] * t.s + t.ox, jy = t.oy - G.JY[j] * t.s;
+    if (j < 0 || Math.hypot(jx - px, jy - py) > 26 * DPR || !isFinite(R.dist[j])) { clearHover(); return; }
+    const st = styleNow(), k = cv.width / 1000;
+    octx.clearRect(0, 0, ov.width, ov.height);
+    const pts = pathXY(j, t);
+    octx.lineCap = "round"; octx.lineJoin = "round";
+    octx.strokeStyle = st.halo; octx.lineWidth = 6 * k; strokePts(octx, pts);
+    octx.strokeStyle = st.ink; octx.lineWidth = 2.6 * k; strokePts(octx, pts);
+    octx.beginPath(); octx.arc(jx, jy, 5 * k, 0, 7); octx.fillStyle = st.ink; octx.fill(); octx.lineWidth = 2 * k; octx.strokeStyle = st.halo; octx.stroke();
+    const from = placeNear(G.JX[j], G.JY[j]).n;
+    const to = R.kind === "one" ? S.dest.name : R.kind === "rivals" ? S.cities[R.lab[j]].name : R.spotName;
+    let html = `<b>${from}</b> → ${to}<br>${fmtTime(R.T[j])} · ${fmtKm(R.K[j])}`;
+    if (G.mode === "bike") {
+      const refs = []; for (let v = j; v >= 0; v = R.par[v]) { const r = G.jref[v]; if (r && refs[refs.length - 1] !== r) refs.push(r); }
+      if (refs.length) html += `<div class="k">Knooppunten: ${refs.length > 18 ? refs.slice(0, 17).join(" › ") + " › … › " + refs[refs.length - 1] : refs.join(" › ")}</div>`;
+    } else {
+      const roads = []; for (let v = j; v >= 0 && R.par[v] >= 0; v = R.par[v]) { const nm = G.names[G.ln[R.parL[v]]]; if (/^[AN]\d+$/.test(nm) && roads[roads.length - 1] !== nm) roads.push(nm); }
+      if (roads.length) html += `<div class="k">Via ${roads.slice(0, 9).join(" › ")}${roads.length > 9 ? " › …" : ""}</div>`;
+    }
+    tip.innerHTML = html; tip.hidden = false;
+    const r = posterEl.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    tip.style.left = Math.min(r.width - tw - 8, mx + 16) + "px";
+    tip.style.top = (my + th + 20 > r.height ? my - th - 14 : my + 18) + "px";
+  });
+}
+
+/* controls */
+document.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => { if (S.mode !== b.dataset.mode) setMode(b.dataset.mode); });
+document.querySelectorAll("[data-kind]").forEach(b => b.onclick = () => { S.kind = b.dataset.kind; setPressed("[data-kind]", "kind", S.kind); showPanels(); recompute(); renderTags(); });
+document.querySelectorAll("[data-route]").forEach(b => b.onclick = () => { S.route = b.dataset.route; setPressed("[data-route]", "route", S.route); recompute(); });
+document.querySelectorAll("[data-weight]").forEach(b => b.onclick = () => { S.weight = b.dataset.weight; setPressed("[data-weight]", "weight", S.weight); recompute(); });
+document.querySelectorAll("[data-style]").forEach(b => b.onclick = () => { S.style = b.dataset.style; setPressed("[data-style]", "style", S.style); render(); renderTags(); });
+document.querySelectorAll("[data-obj]").forEach(b => b.onclick = () => { S.objective = b.dataset.obj; setPressed("[data-obj]", "obj", S.objective); recompute(); });
+document.getElementById("branches").oninput = e => { S.branches = +e.target.value; document.getElementById("br-out").textContent = S.branches; recompute(); };
+document.getElementById("labels").onchange = e => { S.labels = e.target.checked; render(); };
+document.getElementById("chrome").onchange = e => { S.chrome = e.target.checked; render(); };
+document.getElementById("nbig").oninput = e => {
+  S.nBig = +e.target.value; document.getElementById("nb-out").textContent = S.nBig;
+  S.cities = biggest(S.nBig); document.querySelectorAll("#p-rivals .chip").forEach(c => c.classList.toggle("on", c.dataset.preset === "biggest"));
+  recompute(); renderTags();
+};
+document.querySelectorAll("[data-preset]").forEach(b => b.onclick = () => {
+  const p = b.dataset.preset;
+  if (p === "biggest") S.cities = biggest(S.nBig);
+  else if (p === "capitals") S.cities = namesToPts(PRESETS.capitals);
+  else if (p === "clear-c") S.cities = [];
+  else if (p === "clear-t") S.travelers = [];
+  else S.travelers = namesToPts(PRESETS[p]);
+  b.parentElement.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === b && !p.startsWith("clear")));
+  recompute(); renderTags();
+});
+const destIn = document.getElementById("dest");
+destIn.addEventListener("change", () => { const p = place(destIn.value.trim()); if (p) { S.dest = pt(p); destIn.value = p.n; recompute(); } });
+destIn.addEventListener("keydown", e => { if (e.key === "Enter") { const v = destIn.value.trim().toLowerCase(); const p = place(v) || [...NLD.byName.values()].find(q => q.n.toLowerCase().startsWith(v)); if (p) { S.dest = pt(p); destIn.value = p.n; recompute(); } } });
+
+/* play the spread */
+document.getElementById("play").onclick = () => {
+  if (!R || R.empty || animating) return;
+  animating = true; clearHover();
+  const btn = document.getElementById("play"); btn.disabled = true;
+  const W = cv.width, H = cv.height, st = styleNow(), t = vt(W, H);
+  drawLand(mctx, W, H, t, st);
+  const maxD = R.dist[R.order[R.order.length - 1]];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const dur = reduce ? 1 : 7000, wf = widthFn(W, view.z), N = R.order.length;
+  let i = 1, t0 = performance.now();
+  mctx.lineCap = "round"; mctx.lineJoin = "round";
+  const step = now => {
+    const f = Math.min(1, (now - t0) / dur), T = maxD * (1 - Math.pow(1 - f, 1.6));
+    const neutral = R.kind === "meet";
+    while (i < N && R.dist[R.order[i]] <= T) {
+      const v = R.order[i++]; if (R.par[v] < 0) continue;
+      mctx.beginPath(); edgeTo(mctx, v, t);
+      mctx.lineWidth = wf(R.W[v]); mctx.strokeStyle = neutral ? st.neutral : st.br[R.col[v] % st.br.length];
+      mctx.globalAlpha = neutral ? 0.55 : 1; mctx.stroke();
+    }
+    mctx.globalAlpha = 1;
+    ctx.drawImage(mapLayer, 0, 0); drawChrome(ctx, W, H, st, T);
+    if (f < 1) requestAnimationFrame(step);
+    else { animating = false; btn.disabled = false; setTimeout(render, 900); }
+  };
+  requestAnimationFrame(step);
+};
+
+/* print-size image */
+document.getElementById("export").onclick = () => {
+  if (!G) return;
+  const W = 3300, H = Math.round(W * NLD.Hu / NLD.Wu), c = document.createElement("canvas"); c.width = W; c.height = H;
+  const x = c.getContext("2d");
+  renderLayer(x, W, H); drawChrome(x, W, H, styleNow());
+  c.toBlob(b => {
+    lastBlob = b;
+    const url = URL.createObjectURL(b);
+    document.getElementById("modal-img").src = url;
+    const dl = document.getElementById("modal-dl"); dl.href = url;
+    dl.download = `alle-${G.mode === "car" ? "wegen" : "fietsroutes"}-${slug(posterText().big)}.png`;
+    document.getElementById("modal").hidden = false;
+  }, "image/png");
+};
+/* in the claude.ai viewer a plain download link is inert; hand the file over through the viewer instead */
+let lastBlob = null, DL = null;
+if (window.claude && window.claude.use) {
+  window.claude.use("downloads").then(ns => { DL = ns; if (!ns) document.getElementById("modal-dl").hidden = true; }).catch(() => { document.getElementById("modal-dl").hidden = true; });
+}
+document.getElementById("modal-dl").addEventListener("click", async e => {
+  if (!DL || !lastBlob) return; // local: the normal link does the work
+  e.preventDefault();
+  const note = document.getElementById("modal-note");
+  try { await DL.save({ filename: e.currentTarget.download, data: lastBlob }); note.textContent = "Saved."; }
+  catch (err) { note.textContent = err && err.code === "declined" ? "Download cancelled." : "Downloading is not available here. Right-click or long-press the image to save it."; }
+});
+document.getElementById("modal-close").onclick = () => { document.getElementById("modal").hidden = true; };
+document.getElementById("modal").onclick = e => { if (e.target.id === "modal") e.currentTarget.hidden = true; };
+
+let rz = 0;
+window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { sizeCanvas(); render(); }, 120); });
+window.addEventListener("hashchange", () => { if (readHash()) { document.getElementById("dest").value = S.dest.name; S.kind = "one"; setPressed("[data-kind]", "kind", "one"); showPanels(); setMode(S.mode); } });
+
+/* boot */
+(async () => {
+  try {
+    await loadShared();
+    NLD.towns.sort((a, b) => b.p - a.p);
+    view = { cx: NLD.Wu / 2, cy: NLD.Hu / 2, z: 1 };
+    sizeCanvas();
+    if (!readHash()) S.dest = pt(place("Utrecht"));
+    document.getElementById("dest").value = S.dest.name;
+    S.cities = biggest(S.nBig); S.travelers = namesToPts(PRESETS.g4);
+    await Promise.all([document.fonts.load("850 40px Archivo"), document.fonts.load("600 12px 'Spline Sans Mono'"), document.fonts.load("500 12px Archivo")]).catch(() => {});
+    await setMode(S.mode);
+  } catch (err) {
+    console.error(err);
+    const l = document.getElementById("loading"); l.hidden = false;
+    l.textContent = "The map data did not load. Serve this folder over http (for example: python3 -m http.server) and reload.";
+  }
+})();
+</script>
+</html>

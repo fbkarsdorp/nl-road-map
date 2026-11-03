@@ -1,0 +1,7 @@
+# local backup of the pre-git version (git history replaces it)
+backup/
+# build outputs the page doesn't load (it reads the base64 data/*.txt copies)
+data/*.bin
+data/*.gz
+.DS_Store
+__pycache__/

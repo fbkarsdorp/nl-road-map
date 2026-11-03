@@ -287,7 +287,7 @@ const I18N = {
     lblCities: "Cities that compete", prBiggest: "Biggest", prCapitals: "Provincial capitals", prClear: "Clear", ariaNbig: "Number of biggest cities",
     rivalsHint: "Every junction drains to whichever city it reaches first. Click the map to add a city, or click one to remove it.",
     lblWho: "Who is coming", prG4: "G4 cities", prCorners: "Four corners", prUnis: "University towns",
-    meetHint: "Click the map to add someone (up to 8), or click a marker to remove them.",
+    meetHint: "Click the map to add someone (up to 12), or click a marker to remove them.",
     lblBest: "Best spot means", ariaObjective: "Meeting objective", objFair: "Shortest longest trip", objTotal: "Least total",
     lblRoute: "Route by", routeTime: "Time", routeDist: "Distance",
     lblWeight: "Width counts", ariaWeight: "Line width counts", wArea: "Land", wPop: "People",
@@ -334,7 +334,7 @@ const I18N = {
     lblCities: "Steden in de strijd", prBiggest: "Grootste", prCapitals: "Provinciehoofdsteden", prClear: "Wissen", ariaNbig: "Aantal grootste steden",
     rivalsHint: "Elk knooppunt hoort bij de stad die het als eerste bereikt. Klik op de kaart om een stad toe te voegen, of op een stad om haar weg te halen.",
     lblWho: "Wie komen er", prG4: "G4-steden", prCorners: "Vier hoeken", prUnis: "Universiteitssteden",
-    meetHint: "Klik op de kaart om iemand toe te voegen (maximaal 8), of op een markering om die weg te halen.",
+    meetHint: "Klik op de kaart om iemand toe te voegen (maximaal 12), of op een markering om die weg te halen.",
     lblBest: "Beste plek is", ariaObjective: "Doel van de afspraak", objFair: "Eerlijkst", objTotal: "Minst in totaal",
     lblRoute: "Route op", routeTime: "Tijd", routeDist: "Afstand",
     lblWeight: "Dikte telt", ariaWeight: "Waar de lijndikte voor staat", wArea: "Land", wPop: "Mensen",
@@ -551,7 +551,7 @@ function dijkstra(srcs, rev, cost) {
 function costArr() { return S.route === "dist" ? G.lk : G.lt; }
 function distFrom(j) { // forward, from a traveller
   const key = j + "|" + S.route;
-  if (!G.distCache.has(key)) { if (G.distCache.size > 24) G.distCache.clear(); G.distCache.set(key, dijkstra([j], false, costArr()).dist); }
+  if (!G.distCache.has(key)) { if (G.distCache.size > 40) G.distCache.clear(); G.distCache.set(key, dijkstra([j], false, costArr()).dist); }
   return G.distCache.get(key);
 }
 
@@ -968,11 +968,12 @@ function readHash() {
   S.mode = m[1]; S.dest = pt(p); return true;
 }
 
+const MAX_TRAV = 12; // one colour each from the 12-colour palettes
 const PRESETS = {
   capitals: ["Groningen", "Leeuwarden", "Assen", "Zwolle", "Lelystad", "Arnhem", "Utrecht", "Haarlem", "Den Haag", "Middelburg", "'s-Hertogenbosch", "Maastricht"],
   g4: ["Amsterdam", "Rotterdam", "Den Haag", "Utrecht"],
   corners: ["Den Helder", "Delfzijl", "Vaals", "Cadzand"],
-  unis: ["Groningen", "Enschede", "Nijmegen", "Wageningen", "Maastricht", "Eindhoven", "Tilburg", "Delft"],
+  unis: ["Groningen", "Enschede", "Nijmegen", "Wageningen", "Maastricht", "Eindhoven", "Tilburg", "Delft", "Leiden", "Amsterdam", "Rotterdam", "Utrecht"],
 };
 function biggest(n) {
   const out = [];
@@ -1028,7 +1029,7 @@ function clickMap(px, py) {
     const hitI = list.findIndex(c => Math.hypot(c.x * t.s + t.ox - px, t.oy - c.y * t.s - py) < 12 * DPR);
     if (hitI >= 0) list.splice(hitI, 1);
     else {
-      if (S.kind === "meet" && list.length >= 8) return;
+      if (S.kind === "meet" && list.length >= MAX_TRAV) return;
       const j = nearestJ(x, y), p = placeNear(G.JX[j], G.JY[j]);
       list.push({ x: G.JX[j], y: G.JY[j], name: p.n });
     }

@@ -7,7 +7,7 @@ Two networks:
 - **Car roads**: OSM motorway → tertiary (plus links) and car ferries. Speeds come from road class and `maxspeed`, and one-way rules are respected.
 - **Fietsroutes**: the national *fietsknooppunten* network (OSM `rcn`/`ncn` route relations), plus bike ferries and the Wadden-island cycle paths. It uses a steady 16 km/h, and hovering a junction lists the knooppunt numbers along the route.
 
-Three map types: **one place**, **rival cities** (each junction drains to the nearest of N cities), and **meet halfway** (the fairest or least-total meeting spot for up to 8 travellers).
+Three map types: **one place**, **rival cities** (each junction drains to the nearest of N cities), and **meet halfway** (the fairest or least-total meeting spot for up to 12 travellers).
 
 The page is in English or Dutch (the EN/NL switch in the panel). It follows the browser language at first, remembers the choice, and `?lang=nl` or `?lang=en` in a link forces one.
 
